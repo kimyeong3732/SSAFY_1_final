@@ -60,12 +60,23 @@ onUnmounted(() => {
         <div class="row justify-content-center">
           <div class="col-lg-8 text-center mx-auto my-auto">
             <h1 class="text-white">
-              Work with an amazing <span class="text-white" id="typed"></span>
+              Where are we going in <span class="text-white" id="typed"></span>
             </h1>
             <div id="typed-strings">
-              <h1>team</h1>
-              <h1>design</h1>
-              <h1>tool</h1>
+              <h1>Seoul ?</h1>
+              <h1>Incheon ?</h1>
+              <h1>Daejeon ?</h1>
+              <h1>Daegu ?</h1>
+              <h1>Gwangju ?</h1>
+              <h1>Busan ?</h1>
+              <h1>Ulsan ?</h1>
+              <h1>Sejong ?</h1>
+              <h1>Gyeonggi ?</h1>
+              <h1>Gangwon ?</h1>
+              <h1>Chungcheong ?</h1>
+              <h1>Gyeongsang ?</h1>
+              <h1>Jeolla ?</h1>
+              <h1>Jeju ?</h1>
             </div>
             <p class="lead mb-4 text-white opacity-8">
               We’re constantly trying to express ourselves and actualize our
