@@ -75,11 +75,11 @@ onUnmounted(() => {
   </Header>
 
   <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6">
-    <PresentationCounter />
-    <PresentationInformation />
-    <PresentationExample :data="data" />
-    <PresentationPages />
-    <BuiltByDevelopers />
+    
+    
+    
+    
+    
 
     <div class="container">
       <div class="row">
@@ -128,7 +128,7 @@ onUnmounted(() => {
         </div>
       </div>
     </div>
-    <PresentationTestimonials />
+    
 
     <div
       class="container-fluid mt-sm-5 border-radius-xl"
