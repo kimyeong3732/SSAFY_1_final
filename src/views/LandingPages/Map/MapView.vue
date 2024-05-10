@@ -82,24 +82,64 @@ onUnmounted(() => {
               We’re constantly trying to express ourselves and actualize our
               dreams. If you have the opportunity to play this game
             </p>
-            <button type="submit" class="btn bg-white text-dark">
-              Create Account
-            </button>
-            <h6 class="text-white mb-2 mt-5">Find us on</h6>
-            <div class="d-flex justify-content-center">
-              <a href="javascript:;"
-                ><i class="fab fa-facebook text-lg text-white me-4"></i
-              ></a>
-              <a href="javascript:;"
-                ><i class="fab fa-instagram text-lg text-white me-4"></i
-              ></a>
-              <a href="javascript:;"
-                ><i class="fab fa-twitter text-lg text-white me-4"></i
-              ></a>
-              <a href="javascript:;"
-                ><i class="fab fa-google-plus text-lg text-white"></i
-              ></a>
-            </div>
+
+            <div class="row">
+							<div class="col-3">
+								<!-- class="form-select" -->
+								<select id="sidoList" class="form-select text-white">
+                  <option class="text-dark" value=''>시도</option>
+                  <option class="text-dark" value='1'>서울</option>
+                  <option class="text-dark" value='2'>인천</option>
+                  <option class="text-dark" value='3'>대전</option>
+                  <option class="text-dark" value='4'>대구</option>
+                  <option class="text-dark" value='5'>광주</option>
+                  <option class="text-dark" value='6'>부산</option>
+                  <option class="text-dark" value='7'>울산</option>
+                  <option class="text-dark" value='8'>세종</option>
+                  <option class="text-dark" value='31'>경기</option>
+                  <option class="text-dark" value='32'>강원</option>
+                  <option class="text-dark" value='33'>충북</option>
+                  <option class="text-dark" value='34'>충남</option>
+                  <option class="text-dark" value='35'>경북</option>
+                  <option class="text-dark" value='36'>경남</option>
+                  <option class="text-dark" value='37'>전북</option>
+                  <option class="text-dark" value='38'>전남</option>
+                  <option class="text-dark" value='39'>제주</option>
+                </select>
+							</div>
+
+							<div class="col-3">
+								<select id="search-content-id" class="form-select me-2 text-white">
+									<option class="text-dark" value="0" selected>관광지 유형</option>
+									<option class="text-dark" value="12">관광지</option>
+									<option class="text-dark" value="14">문화시설</option>
+									<option class="text-dark" value="15">축제공연행사</option>
+									<option class="text-dark" value="25">여행코스</option>
+									<option class="text-dark" value="28">레포츠</option>
+									<option class="text-dark" value="32">숙박</option>
+									<option class="text-dark" value="38">쇼핑</option>
+									<option class="text-dark" value="39">음식점</option>
+								</select>
+							</div>
+							<div class="col-3">
+								<input id="search-keyword" class="form-control me-2 text-white" style="border: solid 1px; border-color: white;"
+									type="search" placeholder="검색어" aria-label="검색어" />
+							</div>
+							
+							<div class="col-1">
+								<input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+								<label class="form-check-label text-white" for="flexCheckChecked">
+								정렬
+								</label>
+							</div>
+							
+							<div class="col-2">
+								<div class="d-grid gap-2">
+									<button id="btnSearch" type="button" class="btn bg-white text-dark">검색</button>
+								</div>
+							</div>
+						</div>
+            
           </div>
         </div>
       </div>
@@ -113,3 +153,14 @@ onUnmounted(() => {
   </div>
   <DefaultFooter />
 </template>
+
+<style scoped>
+.form-check-input {
+  background-color: #fff;
+  opacity: 0.5;
+}
+.form-check-input:checked[type=checkbox] {
+  opacity: 1;
+  background-image: linear-gradient(195deg, #fff 0%, #fff 100%);
+}
+</style>
