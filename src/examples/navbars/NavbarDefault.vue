@@ -122,7 +122,7 @@ watch(
       >
         Enjoy Trip
       </RouterLink>
-      <RouterLink
+      <!-- <RouterLink
         class="navbar-brand d-block d-md-none"
         :class="
           props.transparent || props.dark
@@ -140,7 +140,7 @@ watch(
         href="https://www.creative-tim.com/product/vue-material-kit-pro"
         class="btn btn-sm bg-gradient-success mb-0 ms-auto d-lg-none d-block"
         >Buy Now</a
-      >
+      > -->
       <button
         class="navbar-toggler shadow-none ms-2"
         type="button"
@@ -236,11 +236,7 @@ watch(
                 >
                   <span>Author</span>
                 </RouterLink> -->
-                <div
-                  class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-0 mt-3"
-                >
-                  Account
-                </div>
+                
               </div>
             </div>
           </li><li class="nav-item dropdown dropdown-hover mx-2">

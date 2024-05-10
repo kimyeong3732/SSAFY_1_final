@@ -41,7 +41,7 @@ onMounted(() => {
                   <h4
                     class="text-white font-weight-bolder text-center mt-2 mb-0"
                   >
-                    Sign in
+                    Sign up
                   </h4>
                   <div class="row mt-3">
                     <div class="col-2 text-center ms-auto">
@@ -65,6 +65,12 @@ onMounted(() => {
               <div class="card-body">
                 <form role="form" class="text-start">
                   <MaterialInput
+                    id="name"
+                    class="input-group-outline my-3"
+                    :label="{ text: 'Name', class: 'form-label' }"
+                    type="text"
+                  />
+                  <MaterialInput
                     id="email"
                     class="input-group-outline my-3"
                     :label="{ text: 'Email', class: 'form-label' }"
@@ -76,13 +82,12 @@ onMounted(() => {
                     :label="{ text: 'Password', class: 'form-label' }"
                     type="password"
                   />
-                  <MaterialSwitch
-                    class="d-flex align-items-center mb-3"
-                    id="rememberMe"
-                    labelClass="mb-0 ms-3"
-                    checked
-                    >Remember me</MaterialSwitch
-                  >
+                  <MaterialInput
+                    id="password2"
+                    class="input-group-outline mb-3"
+                    :label="{ text: 'Confirm Password', class: 'form-label' }"
+                    type="password"
+                  />
 
                   <div class="text-center">
                     <MaterialButton
@@ -90,17 +95,9 @@ onMounted(() => {
                       variant="gradient"
                       color="success"
                       fullWidth
-                      >Sign in</MaterialButton
+                      >Sign up</MaterialButton
                     >
                   </div>
-                  <p class="mt-4 text-sm text-center">
-                    Don't have an account?
-                    <a
-                      href="/pages/landing-pages/signup"
-                      class="text-success text-gradient font-weight-bold"
-                      >Sign up</a
-                    >
-                  </p>
                 </form>
               </div>
             </div>
