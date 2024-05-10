@@ -12,10 +12,10 @@ import bg0 from "@/assets/img/bg9.jpg";
 import Typed from "typed.js";
 
 //sections
-import Information from "./Sections/AboutInformation.vue";
-import AboutTeam from "./Sections/AboutTeam.vue";
-import Featuring from "./Sections/AboutFeaturing.vue";
-import Newsletter from "./Sections/AboutNewsletter.vue";
+import MapMap from "./Sections/MapMap.vue";
+import MapTable from "./Sections/MapTable.vue";
+import MapVisited from "./Sections/MapVisited.vue";
+import MapFavorite from "./Sections/MapFavorite.vue";
 
 const body = document.getElementsByTagName("body")[0];
 //hooks
@@ -79,8 +79,7 @@ onUnmounted(() => {
               <h1>Jeju ?</h1>
             </div>
             <p class="lead mb-4 text-white opacity-8">
-              We’re constantly trying to express ourselves and actualize our
-              dreams. If you have the opportunity to play this game
+              Do your search and experience the amazing experience!!!
             </p>
 
             <div class="row">
@@ -139,17 +138,16 @@ onUnmounted(() => {
 								</div>
 							</div>
 						</div>
-            
           </div>
         </div>
       </div>
     </div>
   </header>
   <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
-    <Information />
-    <AboutTeam />
-    <Featuring />
-    <Newsletter />
+    <MapMap />
+    <MapTable />
+    <MapVisited />
+    <MapFavorite />
   </div>
   <DefaultFooter />
 </template>

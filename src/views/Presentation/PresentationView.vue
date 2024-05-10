@@ -65,8 +65,7 @@ onUnmounted(() => {
               Enjoy Trip
             </h1>
             <p class="lead text-white px-5 mt-3" :style="{ fontWeight: '500' }">
-              Start the Development With Bootstrap 5 Design System inspired by
-              Material Design.
+              Wherever you want to go, it's easy and fast
             </p>
           </div>
         </div>
@@ -74,7 +73,7 @@ onUnmounted(() => {
     </div>
   </Header>
 
-  <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6">
+  <!-- <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6">
     
     
     
@@ -292,6 +291,6 @@ onUnmounted(() => {
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <DefaultFooter />
 </template>
