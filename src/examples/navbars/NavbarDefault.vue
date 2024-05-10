@@ -202,7 +202,7 @@ watch(
                         <span>Map</span>
                       </RouterLink>
                       <RouterLink
-                        :to="{ name: 'contactus' }"
+                        :to="{ name: 'board' }"
                         class="dropdown-item border-radius-md"
                       >
                         <span>Board</span>

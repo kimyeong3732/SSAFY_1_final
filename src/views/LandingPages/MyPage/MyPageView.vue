@@ -7,7 +7,7 @@ import Header from "../../../examples/Header.vue";
 import Footer from "./Sections/MyPageFooter.vue";
 import Profile from "./Sections/MyPageProfile.vue";
 import Posts from "./Sections/MyPageFriendship.vue";
-import Contact from "./Sections/MyPageContact.vue";
+import Contact from "./Sections/EditProfile.vue";
 
 // image
 import image from "@/assets/img/city-profile.jpg";

@@ -120,14 +120,14 @@ onMounted(() => {
                 <form class="p-3" id="contact-form" method="post">
                   <div class="card-header px-4 py-sm-5 py-3">
                     <h2>Edit Profile</h2>
-                    <p class="lead">We'd like to talk with you.</p>
+                    <!-- <p class="lead">We'd like to talk with you.</p> -->
                   </div>
                   <div class="card-body pt-1">
                     <div class="row">
                       <div class="col-md-12 pe-2 mb-3">
                         <MaterialInput
                           class="input-group-static mb-4"
-                          label="My name is"
+                          label="My name"
                           type="text"
                           placeholder="Full Name"
                         />
@@ -135,28 +135,42 @@ onMounted(() => {
                       <div class="col-md-12 pe-2 mb-3">
                         <MaterialInput
                           class="input-group-static mb-4"
-                          label="I'm looking for"
-                          type="text"
-                          placeholder="What you love"
+                          label="Password"
+                          type="password"
+                          placeholder="Password"
+                        />
+                      </div>
+                      <div class="col-md-12 pe-2 mb-3">
+                        <MaterialInput
+                          class="input-group-static mb-4"
+                          label="Password Confirm"
+                          type="password"
+                          placeholder="Password Confirm"
                         />
                       </div>
                       <div class="col-md-12 pe-2 mb-3">
                         <MaterialTextArea
                           class="input-group-static mb-4"
-                          placeholder="I want to say that..."
+                          placeholder="Message"
                           :rows="6"
                           >Your message</MaterialTextArea
                         >
                       </div>
                     </div>
                     <div class="row">
+                      
                       <div class="col-md-6 text-end ms-auto">
+                        <MaterialButton 
+                          variant="gradient" 
+                          color="danger" 
+                          class="w-auto me-2"
+                          >Quit</MaterialButton>
                         <MaterialButton
                           variant="gradient"
                           color="success"
                           type="submit"
-                          class="mb-0"
-                          >Send Message</MaterialButton
+                          class="w-auto me-2"
+                          >Save</MaterialButton
                         >
                       </div>
                     </div>
