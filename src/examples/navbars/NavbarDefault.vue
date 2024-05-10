@@ -280,7 +280,7 @@ watch(
                         <span>Sign In</span>
                       </RouterLink>
                       <RouterLink
-                        :to="{ name: 'signin-basic' }"
+                        :to="{ name: 'mypage' }"
                         class="dropdown-item border-radius-md"
                       >
                         <span>My Page</span>
@@ -297,7 +297,7 @@ watch(
                   <span>Sign In</span>
                 </RouterLink>
                 <RouterLink
-                  :to="{ name: 'signin-basic' }"
+                  :to="{ name: 'mypage' }"
                   class="dropdown-item border-radius-md"
                 >
                   <span>My Page</span>

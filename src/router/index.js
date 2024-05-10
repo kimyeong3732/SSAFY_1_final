@@ -5,6 +5,7 @@ import ContactView from "../views/LandingPages/ContactUs/ContactView.vue";
 import AuthorView from "../views/LandingPages/Author/AuthorView.vue";
 import SignInBasicView from "../views/LandingPages/SignIn/BasicView.vue";
 import SingUpBasicView from "../views/LandingPages/SignIn/SingUp.vue";
+import MyPageView from "../views/LandingPages/MyPage/MyPageView.vue";
 import PageHeaders from "../layouts/sections/page-sections/page-headers/HeadersView.vue";
 import PageFeatures from "../layouts/sections/page-sections/features/FeaturesView.vue";
 import NavigationNavbars from "../layouts/sections/navigation/navbars/NavbarsView.vue";
@@ -56,6 +57,11 @@ const router = createRouter({
       path: "/pages/landing-pages/signup",
       name: "signup-basic",
       component: SingUpBasicView,
+    },
+    {
+      path: "/pages/landing-pages/mypage",
+      name: "mypage",
+      component: MyPageView,
     },
   ],
 });
