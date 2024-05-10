@@ -3,7 +3,7 @@
 
 
 ## Main 화면
-
+![image_main.png](./capture/image_main.png)
 
 ## Map 화면
 
