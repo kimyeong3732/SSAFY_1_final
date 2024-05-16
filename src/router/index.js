@@ -3,8 +3,8 @@ import PresentationView from "../views/Presentation/PresentationView.vue";
 import AboutView from "../views/LandingPages/Map/MapView.vue";
 import ContactView from "../views/LandingPages/ContactUs/ContactView.vue";
 import AuthorView from "../views/LandingPages/Author/AuthorView.vue";
-import SignInBasicView from "../views/LandingPages/SignIn/BasicView.vue";
-import SingUpBasicView from "../views/LandingPages/SignIn/SingUp.vue";
+import SignInBasicView from "../views/LandingPages/SignIn/SignIn.vue";
+import SingUpBasicView from "../views/LandingPages/SignIn/SignUp.vue";
 import MyPageView from "../views/LandingPages/MyPage/MyPageView.vue";
 import BoardView from "../views/LandingPages/Board/BoardView.vue";
 import PageHeaders from "../layouts/sections/page-sections/page-headers/HeadersView.vue";
@@ -50,7 +50,7 @@ const router = createRouter({
       component: AuthorView,
     },
     {
-      path: "/pages/landing-pages/basic",
+      path: "/pages/landing-pages/signin",
       name: "signin-basic",
       component: SignInBasicView,
     },
