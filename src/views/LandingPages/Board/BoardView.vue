@@ -1,9 +1,12 @@
 <script setup>
-import { onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 
 //example components
 import DefaultNavbar from "../../../examples/navbars/NavbarDefault.vue";
 import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
+
+// common
+import http from "@/common/axios.js";
 
 //image
 import bg0 from "@/assets/img/bg9.jpg";
@@ -12,11 +15,29 @@ import bg0 from "@/assets/img/bg9.jpg";
 import Typed from "typed.js";
 
 //sections
-import Information from "./Sections/AboutBoard.vue";
-import AboutTeam from "./Sections/AboutTeam.vue";
-import Featuring from "./Sections/AboutFeaturing.vue";
-import Newsletter from "./Sections/AboutNewsletter.vue";
-// import Board from "./Sections/AboutBoard.vue";
+import BoardList from "./Sections/AboutBoard.vue";
+import InsertModal from "./Modals/InsertModal.vue";
+import DetailModal from "./Modals/DetailModal.vue";
+import UpdateModal from "./Modals/UpdateModal.vue";
+import PaginationUI from "./Sections/PaginationUI.vue";
+
+// router
+import { useRouter } from 'vue-router'
+
+// store
+import {useBoardStore} from '@/stores/boardStore'
+import {useAuthStore} from '@/stores/authStore'
+
+
+const router = useRouter()
+
+const {boardStore, boardList, setBoardMovePage, setBoardDetail } = useBoardStore();
+const {setLogout} = useAuthStore()
+
+// data
+let insertModal = null
+let detailModal = ref(null)
+let updateModal = null
 
 const body = document.getElementsByTagName("body")[0];
 //hooks
@@ -35,12 +56,82 @@ onMounted(() => {
       loop: true,
     });
   }
+
+  insertModal = new Modal(document.getElementById("insertModal"));
+  detailModal = new Modal(document.getElementById("detailModal"));
+  updateModal = new Modal(document.getElementById("updateModal"));
 });
 
 onUnmounted(() => {
   body.classList.remove("about-us");
   body.classList.remove("bg-gray-200");
 });
+
+// 초기 작업
+boardList();
+
+// pagination
+const movePage= (pageIndex) => {
+    console.log("BoardMainVue : movePage : pageIndex : " + pageIndex);
+    setBoardMovePage(pageIndex);
+    boardList();
+}
+
+// insert
+const showInsertModal = () => insertModal.show()
+const closeAfterInsert = () => {
+    insertModal.hide();
+    boardList();
+}
+
+const showDetailModal = () => {
+    detailModal.show();
+}
+
+
+const changeToUpdate = () => {
+    detailModal.hide();
+    updateModal.show();
+}
+
+const closeAfterUpdate = () => {
+    updateModal.hide();
+    boardList();
+}
+
+const changeToDelete = () => {
+    detailModal.hide();
+
+    if(confirm('이 글을 삭제하시겠습니까?')){
+        boardDelete(); 
+    }
+}
+
+const boardDelete = async () => {
+
+    try {
+        let { data } = await http.delete("/boards/" + boardStore.boardId);
+        console.log(data);
+
+        if (data.result == "login") {
+            doLogout();
+        }else if(data.result == "success"){
+            alert("글이 삭제되었습니다.");
+            boardList();
+        }else{
+            alert('글 삭제 중 오류가 발생했습니다.')
+        }
+    } catch (error) {
+        alert('글 삭제 중 오류가 발생했습니다.')
+        console.log(error);
+    }
+}
+// logout 처리 별도 method
+const doLogout = () => {
+    setLogout()
+    router.push("/login");
+}
+
 </script>
 <template>
   <DefaultNavbar
@@ -67,10 +158,24 @@ onUnmounted(() => {
     </div>
   </header>
   <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
-    <Information />
-    <!-- <AboutTeam /> -->
-    <!-- <Featuring /> -->
-    <!-- <Newsletter /> -->
+    
+    <div class="container mt-3">
+      <div class="input-group mb-3">
+        
+        <!-- store 사용 -->
+        <input v-model="boardStore.searchWord" @keydown.enter="boardList" type="text" class="form-control" />
+        <button @click="boardList" class="btn btn-success" type="button">Search</button>
+      </div>
+      <board-list @call-parent-show-detail="showDetailModal"></board-list>
+
+      <PaginationUI v-on:call-parent="movePage"></PaginationUI>
+      <button class=" col-1 btn btn-primary" @click="showInsertModal">글쓰기</button>
+    </div>
+    
+    <insert-modal v-on:call-parent-insert="closeAfterInsert"></insert-modal>
+    <!-- props 제거 -->
+    <detail-modal v-on:call-parent-change-to-update="changeToUpdate" v-on:call-parent-change-to-delete="changeToDelete"></detail-modal>
+    <update-modal v-on:call-parent-update="closeAfterUpdate"></update-modal>
   </div>
   <DefaultFooter />
 </template>
