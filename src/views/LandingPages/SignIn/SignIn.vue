@@ -76,13 +76,13 @@ onMounted(() => {
                     :label="{ text: 'Password', class: 'form-label' }"
                     type="password"
                   />
-                  <MaterialSwitch
+                  <!-- <MaterialSwitch
                     class="d-flex align-items-center mb-3"
                     id="rememberMe"
                     labelClass="mb-0 ms-3"
                     checked
                     >Remember me</MaterialSwitch
-                  >
+                  > -->
 
                   <div class="text-center">
                     <MaterialButton
