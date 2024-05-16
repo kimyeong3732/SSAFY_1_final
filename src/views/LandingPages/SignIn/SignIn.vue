@@ -1,4 +1,7 @@
 <script setup>
+import http from "@/common/axios.js";
+import { useAuthStore } from '@/stores/authStore.js';
+import { useRouter } from 'vue-router'
 import { onMounted } from "vue";
 
 // example components
@@ -15,6 +18,64 @@ import setMaterialInput from "@/assets/js/material-input";
 onMounted(() => {
   setMaterialInput();
 });
+
+ 
+// import VueAlertify from "vue-alertify";
+
+const { authStore, setLogin } = useAuthStore()
+const router = useRouter()
+
+const test = () => {
+  alert(authStore.userEmail + " " + authStore.userPassword)
+}
+
+console.log(authStore);
+const login = async () => {
+  // #1 Not JSON Way : application/x-www-form-urlencoded;charset=UTF-8
+
+  // backend 는 @RequestBody X
+  // let options = {
+  //   headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' }
+  // }
+
+  // application/x-www-form-urlencoded 일 때 param 은 URLSearchParams() 를 이용
+  // const params = new URLSearchParams();
+  // params.append('userEmail', authStore.userEmail);
+  // params.append('userPassword', authStore.userPassword);
+
+  // #2 JSON Way : application/json
+  let loginObj = {
+    userEmail: authStore.userEmail,
+    userPassword: authStore.userPassword,
+  };
+
+  try {
+    // #1
+    // let {data} = await  http.post('/login', params, options );
+
+    // #2
+    let { data } = await http.post("/login", loginObj);
+
+    console.log("LoginVue: data : ");
+    console.log(data);
+    console.log(data.userName);
+
+    if( data.result == "success" ){
+      setLogin({ isLogin: true, userName: data.userName, userProfileImageUrl: data.userProfileImageUrl });
+      // board 로 이동
+      router.push("/");
+    }else if( data.result == "fail" ){
+      // this.$alertify.error('이메일 또는 비밀번호를 확인하세요.');
+      alert('이메일 또는 비밀번호를 확인하세요.');
+    }
+  } catch (error) {
+    // LoginController 에서 ResponseEntity 로 404 보내면 여기로 떨어진다.
+    console.log("LoginVue: error : ");
+    console.log(error);
+    // this.$alertify.error('로그인 과정에서 오류가 발생했습니다.');
+    alert('로그인 과정에서 오류가 발생했습니다.');
+  }
+}
 </script>
 <template>
   <DefaultNavbar transparent />
@@ -63,8 +124,24 @@ onMounted(() => {
                 </div>
               </div>
               <div class="card-body">
-                <form role="form" class="text-start">
-                  <MaterialInput
+                <!-- <form role="form" class="text-start"> -->
+                <div class="input-group input-group-outline my-3">
+                  <label class="form-label">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    v-model="authStore.userEmail"
+                  />
+                </div>
+                <div class="input-group input-group-outline my-3">
+                  <label class="form-label">Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    v-model="authStore.userPassword"
+                  />
+                </div>
+                  <!-- <MaterialInput
                     id="email"
                     class="input-group-outline my-3"
                     :label="{ text: 'Email', class: 'form-label' }"
@@ -75,7 +152,7 @@ onMounted(() => {
                     class="input-group-outline mb-3"
                     :label="{ text: 'Password', class: 'form-label' }"
                     type="password"
-                  />
+                  /> -->
                   <!-- <MaterialSwitch
                     class="d-flex align-items-center mb-3"
                     id="rememberMe"
@@ -90,18 +167,19 @@ onMounted(() => {
                       variant="gradient"
                       color="success"
                       fullWidth
+                      @click="test"
                       >Sign in</MaterialButton
                     >
                   </div>
                   <p class="mt-4 text-sm text-center">
                     Don't have an account?
-                    <a
-                      href="/pages/landing-pages/signup"
+                    <router-link
+                      to="/pages/landing-pages/signup"
                       class="text-success text-gradient font-weight-bold"
-                      >Sign up</a
+                      >Sign up</router-link
                     >
                   </p>
-                </form>
+                <!-- </form> -->
               </div>
             </div>
           </div>
