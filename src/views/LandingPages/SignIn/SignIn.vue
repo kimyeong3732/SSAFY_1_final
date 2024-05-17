@@ -25,10 +25,6 @@ onMounted(() => {
 const { authStore, setLogin } = useAuthStore()
 const router = useRouter()
 
-const test = () => {
-  alert(authStore.userEmail + " " + authStore.userPassword)
-}
-
 console.log(authStore);
 const login = async () => {
   // #1 Not JSON Way : application/x-www-form-urlencoded;charset=UTF-8
@@ -61,7 +57,7 @@ const login = async () => {
     console.log(data.userName);
 
     if( data.result == "success" ){
-      setLogin({ isLogin: true, userName: data.userName, userProfileImageUrl: data.userProfileImageUrl });
+      setLogin({ isLogin: true, userName: data.userName, userProfileImageUrl: data.userProfileImageUrl, userRole: data.userClsf });
       // board 로 이동
       router.push("/");
     }else if( data.result == "fail" ){
@@ -162,14 +158,18 @@ const login = async () => {
                   > -->
 
                   <div class="text-center">
-                    <MaterialButton
+                    <button
+                      class="btn my-4 mb-2 bg-gradient-success w-100"
+                      @click="login"
+                      >Sign in</button
+                    >
+                    <!-- <MaterialButton
                       class="my-4 mb-2"
                       variant="gradient"
                       color="success"
                       fullWidth
-                      @click="test"
                       >Sign in</MaterialButton
-                    >
+                    > -->
                   </div>
                   <p class="mt-4 text-sm text-center">
                     Don't have an account?
