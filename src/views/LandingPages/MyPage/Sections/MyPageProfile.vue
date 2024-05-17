@@ -8,11 +8,15 @@ import MaterialButton from "@/components/MaterialButton.vue";
 // image
 import profilePic from "@/assets/img/bruce-mars.jpg";
 
+import { useAuthStore } from "../../../../stores/authStore";
+
 // material-input
 import setMaterialInput from "@/assets/js/material-input";
 onMounted(() => {
   setMaterialInput();
 });
+
+const { authStore } = useAuthStore();
 </script>
 <template>
   <section class="py-sm-7 py-5 position-relative">
@@ -24,7 +28,7 @@ onMounted(() => {
               <MaterialAvatar
                 size="xxl"
                 class="shadow-xl position-relative z-index-2"
-                :image="profilePic"
+                :image="authStore.userProfileImage"
                 alt="Avatar"
               />
             </div>
@@ -36,42 +40,39 @@ onMounted(() => {
               <div
                 class="d-flex justify-content-between align-items-center mb-2"
               >
-                <h3 class="mb-0">Lee Chang Hyeon</h3>
+                <h2 class="mb-0">{{ authStore.userName }}</h2>
                 <div class="d-block">
-                  <MaterialButton
+                  <!-- <MaterialButton
                     class="text-nowrap mb-0"
                     variant="outline"
                     color="success"
                     size="sm"
                     >Follow</MaterialButton
-                  >
+                  > -->
                 </div>
               </div>
               <div class="row mb-4">
                 <div class="col-auto">
-                  <span class="h6 me-1">323</span>
-                  <span>Posts</span>
+                  <span class="h4 me-1">회원 등급 </span>
+                  <span class="h5">{{ authStore.userRole=='010' ? '일반 회원' : '관리자' }}</span>
                 </div>
-                <div class="col-auto">
+                <!-- <div class="col-auto">
                   <span class="h6 me-1">3.5k</span>
                   <span>Followers</span>
                 </div>
                 <div class="col-auto">
                   <span class="h6 me-1">260</span>
                   <span>Following</span>
-                </div>
+                </div> -->
               </div>
               <p class="text-lg mb-0">
-                Decisions: If you can’t decide, the answer is no. If two equally
-                difficult paths, choose the one more painful in the short term
-                (pain avoidance is creating an illusion of equality). Choose the
-                path that leaves you more equanimous.
-                <br /><a
+                {{ authStore.useMessage }}test text
+                <!-- <br /><a
                   href="javascript:;"
                   class="text-success icon-move-right"
                   >More about me
                   <i class="fas fa-arrow-right text-sm ms-1"></i>
-                </a>
+                </a> -->
               </p>
             </div>
           </div>
