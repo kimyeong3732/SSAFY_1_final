@@ -18,7 +18,6 @@ import setMaterialInput from "@/assets/js/material-input";
 onMounted(() => {
   setMaterialInput();
 });
-
  
 // import VueAlertify from "vue-alertify";
 
