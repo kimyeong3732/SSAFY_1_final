@@ -2,7 +2,7 @@ import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 
 import http from "@/common/axios.js";
-import notLoginUserProfileImageUrl from '@/assets/noProfile.png';
+import notLoginUserProfileImageUrl from '@/assets/noProfileImage.jpg';
 
 export const useAuthStore = defineStore('authStore', () => {
   console.log(notLoginUserProfileImageUrl)
