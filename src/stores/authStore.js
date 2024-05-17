@@ -15,8 +15,8 @@ export const useAuthStore = defineStore('authStore', () => {
     userRole: '010',
 
     // Login
-    userEmail: "dlrkdgur0519@naver.com",
-    userPassword: "dl97230519!",
+    userEmail: "dskim@dskim.com",
+    userPassword: "1234",
   })
 
   // getter 는 생략 직접 사용하는 걸로
@@ -24,10 +24,12 @@ export const useAuthStore = defineStore('authStore', () => {
     sessionStorage.setItem("isLogin", "true");
     sessionStorage.setItem("userName", payload.userName);
     sessionStorage.setItem("userProfileImageUrl", payload.userProfileImageUrl);
+    sessionStorage.setItem('userRole', payload.userRole);
 
     authStore.isLogin = payload.isLogin;
     authStore.userName = payload.userName;
     authStore.userProfileImageUrl = payload.userProfileImageUrl;
+    authStore.userRole = payload.userRole;
     console.log(authStore)
   }
 
@@ -47,10 +49,12 @@ export const useAuthStore = defineStore('authStore', () => {
     sessionStorage.removeItem("isLogin");
     sessionStorage.removeItem("userName");
     sessionStorage.removeItem("userProfileImageUrl");
+    sessionStorage.removeItem("userRole");
 
     authStore.isLogin = false;
     authStore.userName = '';
     authStore.userProfileImageUrl = notLoginUserProfileImageUrl;
+    authStore.userRole = '010';
   }
 
   return {
