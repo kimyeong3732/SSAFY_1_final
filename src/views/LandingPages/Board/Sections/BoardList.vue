@@ -36,24 +36,25 @@ const router = useRouter()
 
 const emit = defineEmits(['call-parent-show-detail'])
 const boardDetail = async (boardId) => {
-try {
-    let { data } = await http.get("/boards/" + boardId);
+    try {
+        let { data } = await http.get("/boards/" + boardId);
 
-    if (data.result == "login") {
-        doLogout();
-    }else if(data.result == "success"){
-        let { dto } = data;
-        setBoardDetail(dto);
+        if (data.result == "login") {
+            doLogout();
+        }else if(data.result == "success"){
+            let { dto } = data;
+            setBoardDetail(dto);
 
-        // props.detailModal.show();
-        emit('call-parent-show-detail');
-    }else{
-        alert('글 조회 중 오류가 발생했습니다.')
+            // props.detailModal.show();
+            emit('call-parent-show-detail');
+        }else{
+            alert('글 조회 중 오류가 발생했습니다.')
+        }
+    } catch (error) {
+        console.log("BoardMainVue: error : ");
+        alert("로그인 후 사용해주세요");
+        router.push("/pages/landing-pages/signin");
     }
-} catch (error) {
-    console.log("BoardMainVue: error : ");
-    console.log(error);
-}
 
 }
 
