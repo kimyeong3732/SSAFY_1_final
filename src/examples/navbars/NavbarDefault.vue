@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import { ref, watch } from "vue";
 import { useWindowsWidth } from "../../assets/js/useWindowsWidth";
 
@@ -7,6 +7,8 @@ import { useWindowsWidth } from "../../assets/js/useWindowsWidth";
 import ArrDark from "@/assets/img/down-arrow-dark.svg";
 import downArrow from "@/assets/img/down-arrow.svg";
 import DownArrWhite from "@/assets/img/down-arrow-white.svg";
+
+import { useAuthStore } from "../../stores/authStore";
 
 const props = defineProps({
   action: {
@@ -88,6 +90,15 @@ watch(
     }
   }
 );
+
+const { authStore, logout, setLogout } = useAuthStore();
+const router = useRouter();
+
+const navLogout = () => {
+  // logout();
+  setLogout();
+  router.push('/');
+}
 </script>
 <template>
   <nav
@@ -225,7 +236,7 @@ watch(
                   <span>Map</span>
                 </RouterLink>
                 <RouterLink
-                  :to="{ name: 'contactus' }"
+                  :to="{ name: 'board' }"
                   class="dropdown-item border-radius-md"
                 >
                   <span>Board</span>
@@ -276,15 +287,30 @@ watch(
                       <RouterLink
                         :to="{ name: 'signin-basic' }"
                         class="dropdown-item border-radius-md"
+                        v-show="!authStore.isLogin"
                       >
                         <span>Sign In</span>
                       </RouterLink>
+                      <div
+                        class="dropdown-item border-radius-md disabled"
+                        v-show="authStore.isLogin"
+                      >
+                        <h6>{{ authStore.userName }}</h6>
+                      </div>
                       <RouterLink
                         :to="{ name: 'mypage' }"
                         class="dropdown-item border-radius-md"
+                        v-show="authStore.isLogin"
                       >
                         <span>My Page</span>
                       </RouterLink>
+                      <div
+                        class="dropdown-item border-radius-md"
+                        v-show="authStore.isLogin"
+                        @click="navLogout"
+                      >
+                        <span>Logout</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -293,15 +319,30 @@ watch(
                 <RouterLink
                   :to="{ name: 'signin-basic' }"
                   class="dropdown-item border-radius-md"
+                  v-show="!authStore.isLogin"
                 >
                   <span>Sign In</span>
                 </RouterLink>
+                <div
+                  class="dropdown-item border-radius-md disabled"
+                  v-show="authStore.isLogin"
+                >
+                  <h6>{{ authStore.userName }}</h6>
+                </div>
                 <RouterLink
                   :to="{ name: 'mypage' }"
                   class="dropdown-item border-radius-md"
+                  v-show="authStore.isLogin"
                 >
                   <span>My Page</span>
                 </RouterLink>
+                <div 
+                  class="dropdown-item border-radius-md"
+                  v-show="authStore.isLogin"
+                  @click="navLogout"
+                >
+                  <span>Logout</span>
+                </div>
               </div>
             </div>
           </li>
