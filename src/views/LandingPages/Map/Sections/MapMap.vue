@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div ref="mapContainer" style="width: 100%; height: 500px"></div>
+    <div ref="mapContainer" style="width: 100%; height: 700px"></div>
         
   </section>
 </template>
