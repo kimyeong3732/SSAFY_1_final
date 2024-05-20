@@ -292,10 +292,11 @@ const navLogout = () => {
                         <span>Sign In</span>
                       </RouterLink>
                       <div
-                        class="dropdown-item border-radius-md disabled"
+                        class="dropdown-item border-radius-md disabled d-flex justify-content-between"
                         v-show="authStore.isLogin"
                       >
-                        <h6>{{ authStore.userName }}</h6>
+                        <span class="h6">{{ authStore.userName }}</span>
+                        <span class="fw-bold">{{ authStore.userRole=='020' ? '관리자' : '' }}</span>
                       </div>
                       <RouterLink
                         :to="{ name: 'mypage' }"
@@ -324,10 +325,11 @@ const navLogout = () => {
                   <span>Sign In</span>
                 </RouterLink>
                 <div
-                  class="dropdown-item border-radius-md disabled"
+                  class="dropdown-item border-radius-md disabled d-flex justify-content-between"
                   v-show="authStore.isLogin"
                 >
-                  <h6>{{ authStore.userName }}</h6>
+                  <span class="h6">{{ authStore.userName }}</span>
+                  <span class="fw-bold">{{ authStore.userRole=='020' ? '관리자' : '' }}</span>
                 </div>
                 <RouterLink
                   :to="{ name: 'mypage' }"
