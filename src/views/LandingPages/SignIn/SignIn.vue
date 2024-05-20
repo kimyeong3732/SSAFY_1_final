@@ -56,7 +56,7 @@ const login = async () => {
     console.log(data.userName);
 
     if( data.result == "success" ){
-      setLogin({ isLogin: true, userName: data.userName, userProfileImageUrl: data.userProfileImageUrl, userRole: data.userClsf });
+      setLogin({ isLogin: true, userName: data.userName, userProfileImage: data.userProfileImage, userRole: data.userRole });
       // board 로 이동
       router.push("/");
     }else if( data.result == "fail" ){
@@ -128,7 +128,7 @@ const login = async () => {
                     v-model="authStore.userEmail"
                   />
                 </div>
-                <div class="input-group input-group-outline my-3">
+                <div class="input-group input-group-outline mb-3">
                   <label class="form-label">Password</label>
                   <input
                     type="password"

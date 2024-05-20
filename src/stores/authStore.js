@@ -2,17 +2,18 @@ import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 
 import http from "@/common/axios.js";
-import notLoginUserProfileImageUrl from '@/assets/noProfileImage.jpg';
+import notLoginUserProfileImage from '@/assets/noProfileImage.jpg';
 
 export const useAuthStore = defineStore('authStore', () => {
-  console.log(notLoginUserProfileImageUrl)
+  console.log(notLoginUserProfileImage)
   const authStore = reactive({
     // NavBar
     isLogin: false,
 
     userName: '',
-    userProfileImageUrl: notLoginUserProfileImageUrl,
+    userProfileImage: notLoginUserProfileImage,
     userRole: '010',
+    userMessage: 'Nothing there. Please edit your profile to put a message.',
 
     // Login
     userEmail: "dskim@dskim.com",
@@ -23,12 +24,12 @@ export const useAuthStore = defineStore('authStore', () => {
   const setLogin = (payload) => {
     sessionStorage.setItem("isLogin", "true");
     sessionStorage.setItem("userName", payload.userName);
-    sessionStorage.setItem("userProfileImageUrl", payload.userProfileImageUrl);
+    sessionStorage.setItem("userProfileImage", payload.userProfileImage);
     sessionStorage.setItem('userRole', payload.userRole);
 
     authStore.isLogin = payload.isLogin;
     authStore.userName = payload.userName;
-    authStore.userProfileImageUrl = payload.userProfileImageUrl;
+    authStore.userProfileImage = payload.userProfileImage;
     authStore.userRole = payload.userRole;
     console.log(authStore)
   }
@@ -48,12 +49,12 @@ export const useAuthStore = defineStore('authStore', () => {
   const setLogout = () => {
     sessionStorage.removeItem("isLogin");
     sessionStorage.removeItem("userName");
-    sessionStorage.removeItem("userProfileImageUrl");
+    sessionStorage.removeItem("userProfileImage");
     sessionStorage.removeItem("userRole");
 
     authStore.isLogin = false;
     authStore.userName = '';
-    authStore.userProfileImageUrl = notLoginUserProfileImageUrl;
+    authStore.userProfileImage = notLoginUserProfileImage;
     authStore.userRole = '010';
   }
 

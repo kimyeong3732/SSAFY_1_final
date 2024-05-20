@@ -53,8 +53,8 @@ const { authStore } = useAuthStore();
               </div>
               <div class="row mb-4">
                 <div class="col-auto">
-                  <span class="h4 me-1">회원 등급 </span>
-                  <span class="h5">{{ authStore.userRole=='010' ? '일반 회원' : '관리자' }}</span>
+                  <!-- <span class="h4 me-1">회원 등급 </span> -->
+                  <span class="h5">{{ authStore.userRole=='020' ? '관리자' : '' }}</span>
                 </div>
                 <!-- <div class="col-auto">
                   <span class="h6 me-1">3.5k</span>
@@ -66,13 +66,13 @@ const { authStore } = useAuthStore();
                 </div> -->
               </div>
               <p class="text-lg mb-0">
-                {{ authStore.useMessage }}test text
-                <!-- <br /><a
-                  href="javascript:;"
+                {{ authStore.userMessage }}
+                <br /><a
+                  href="#updateUser"
                   class="text-success icon-move-right"
-                  >More about me
+                  >Edit Profile
                   <i class="fas fa-arrow-right text-sm ms-1"></i>
-                </a> -->
+                </a>
               </p>
             </div>
           </div>
