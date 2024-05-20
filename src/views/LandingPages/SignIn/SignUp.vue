@@ -112,8 +112,8 @@ const validateEmail = () => {
     let regexp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     isUserEmailValid.value = regexp.test(userEmail.value) ? true : false;
     console.log(isUserEmailValid.value);
-    }
-    const validatePassword = () => {
+  }
+  const validatePassword = () => {
     let patternEngAtListOne = new RegExp(/[a-zA-Z]+/); // + for at least one
     let patternSpeAtListOne = new RegExp(/[~!@#$%^&*()_+|<>?:{}]+/); // + for at least one
     let patternNumAtListOne = new RegExp(/[0-9]+/); // + for at least one

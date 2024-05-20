@@ -1,5 +1,6 @@
 <script setup>
-import { onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
+import { useRouter } from 'vue-router'
 //Vue Material Kit 2 components
 import MaterialButton from "@/components/MaterialButton.vue";
 import MaterialInput from "@/components/MaterialInput.vue";
@@ -13,7 +14,61 @@ import setTooltip from "@/assets/js/tooltip";
 
 // store
 import { useAppStore } from "@/stores";
+import { useAuthStore } from "../../../../stores/authStore";
 const store = useAppStore();
+const { authStore } = useAuthStore();
+
+const router = useRouter()
+
+const userName = ref(authStore.userName)
+const userPassword = ref(authStore.userPassword)
+const userPassword2 = ref('')
+const userMessage = ref(authStore.userMessage)
+
+const isUserNameFocus = ref(true)
+const isUserPasswordFocus = ref(false)
+const isUserPassword2Focus = ref(false)
+const isUserMessageFocus = ref(true)
+
+const isUserNameValid = ref(true)
+const isUserPasswordValid = ref(false)
+const isUserPassword2Valid = ref(false)
+const isUserMessageValid = ref(true)
+
+const isUserNameFocusAndValid = computed(() => isUserNameFocus.value && isUserNameValid.value) 
+const isUserNameFocusAndInvalid = computed(() => isUserNameFocus.value && !isUserNameValid.value) 
+const isUserPasswordFocusAndValid = computed(() => isUserPasswordFocus.value && isUserPasswordValid.value) 
+const isUserPasswordFocusAndInvalid = computed(() => isUserPasswordFocus.value && !isUserPasswordValid.value) 
+const isUserPassword2FocusAndValid = computed(() => isUserPassword2Focus.value && isUserPassword2Valid.value) 
+const isUserPassword2FocusAndInvalid = computed(() => isUserPassword2Focus.value && !isUserPassword2Valid.value) 
+const isUserMessageFocusAndValid = computed(() => isUserMessageFocus.value && isUserMessageValid.value) 
+const isUserMessageFocusAndInvalid = computed(() => isUserMessageFocus.value && !isUserMessageValid.value) 
+
+const validateUserName = () => {
+    isUserNameValid.value = userName.value.length > 0 ? true : false;
+    console.log(isUserNameValid.value);
+}
+
+const validatePassword = () => {
+    let patternEngAtListOne = new RegExp(/[a-zA-Z]+/); // + for at least one
+    let patternSpeAtListOne = new RegExp(/[~!@#$%^&*()_+|<>?:{}]+/); // + for at least one
+    let patternNumAtListOne = new RegExp(/[0-9]+/); // + for at least one
+
+    isUserPasswordValid.value = 
+        patternEngAtListOne.test(userPassword.value) && 
+        patternSpeAtListOne.test(userPassword.value) && 
+        patternNumAtListOne.test(userPassword.value) && 
+        userPassword.value.length >= 8 ? true : false;
+}
+
+const validatePassword2 = () => {
+    isUserPassword2Valid.value = userPassword.value == userPassword2.value ? true : false;
+}
+
+const validateUserMessage = () => {
+    isUserMessageValid.value = userMessage.value.length > 0 ? true : false;
+    console.log(isUserMessageValid.value);
+}
 
 onMounted(() => {
   setTooltip(store.bootstrap);
@@ -31,7 +86,7 @@ onMounted(() => {
                 :style="{ backgroundImage: `url(${bgContact})` }"
                 loading="lazy"
               >
-                <div
+                <!-- <div
                   class="z-index-2 text-center d-flex h-100 w-100 d-flex m-auto justify-content-center"
                 >
                   <div class="mask bg-gradient-dark opacity-8"></div>
@@ -114,7 +169,7 @@ onMounted(() => {
                       </MaterialButton>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
               <div class="col-lg-7">
                 <form class="p-3" id="contact-form" method="post">
@@ -125,36 +180,94 @@ onMounted(() => {
                   <div class="card-body pt-1">
                     <div class="row">
                       <div class="col-md-12 pe-2 mb-3">
-                        <MaterialInput
+                        <div class="input-group input-group-static mb-4">
+                          <label>My name</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            :class="{ 'is-valid': isUserNameFocusAndValid, 'is-invalid': isUserNameFocusAndInvalid }"
+                            placeholder="Full Name"
+                            v-model="userName"
+                            @input="validateUserName"
+                            @focus="isUserNameFocus = true"
+                          />
+                          <div class="valid-feedback">Valid.</div>
+                          <div class="invalid-feedback">올바른 이름을 입력해 주세요.</div>
+                        </div>
+                        <!-- <MaterialInput
                           class="input-group-static mb-4"
                           label="My name"
                           type="text"
                           placeholder="Full Name"
-                        />
+                        /> -->
                       </div>
                       <div class="col-md-12 pe-2 mb-3">
-                        <MaterialInput
+                        <div class="input-group input-group-static mb-4">
+                          <label>Password</label>
+                          <input
+                            type="password"
+                            class="form-control"
+                            :class="{ 'is-valid': isUserPasswordFocusAndValid, 'is-invalid': isUserPasswordFocusAndInvalid }"
+                            placeholder="Password"
+                            v-model="userPassword"
+                            @input="validatePassword"
+                            @focus="isUserPasswordFocus = true"
+                          />
+                          <div class="valid-feedback">Valid.</div>
+                          <div class="invalid-feedback">1개 이상의 특수문자, 대소문자 및 숫자를 포함하고 8자리 이상이여야 합니다.</div>
+                        </div>
+                        <!-- <MaterialInput
                           class="input-group-static mb-4"
                           label="Password"
                           type="password"
                           placeholder="Password"
-                        />
+                        /> -->
                       </div>
                       <div class="col-md-12 pe-2 mb-3">
-                        <MaterialInput
+                        <div class="input-group input-group-static mb-4">
+                          <label>Password Confirm</label>
+                          <input
+                            type="password"
+                            class="form-control"
+                            :class="{ 'is-valid': isUserPassword2FocusAndValid, 'is-invalid': isUserPassword2FocusAndInvalid }"
+                            placeholder="Password Confirm"
+                            v-model="userPassword2"
+                            @input="validatePassword2"
+                            @focus="isUserPassword2Focus = true"
+                          />
+                          <div class="valid-feedback">Valid.</div>
+                          <div class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
+                        </div>
+                        <!-- <MaterialInput
                           class="input-group-static mb-4"
                           label="Password Confirm"
                           type="password"
                           placeholder="Password Confirm"
-                        />
+                        /> -->
                       </div>
                       <div class="col-md-12 pe-2 mb-3">
-                        <MaterialTextArea
+                        <div class="input-group input-group-static mb-4">
+                          <label for="message">Your message</label>
+                          <textarea
+                            name="message"
+                            class="form-control"
+                            id="Message"
+                            placeholder="Message"
+                            rows="6"
+                            :class="{ 'is-valid': isUserMessageFocusAndValid, 'is-invalid': isUserMessageFocusAndInvalid }"
+                            v-model="userMessage"
+                            @input="validateUserMessage"
+                            @focus="isUserMessageFocus = true"
+                          />
+                          <div class="valid-feedback">Valid.</div>
+                          <div class="invalid-feedback">메세지는 비울 수 없습니다.</div>
+                        </div>
+                        <!-- <MaterialTextArea
                           class="input-group-static mb-4"
                           placeholder="Message"
                           :rows="6"
                           >Your message</MaterialTextArea
-                        >
+                        > -->
                       </div>
                     </div>
                     <div class="row">

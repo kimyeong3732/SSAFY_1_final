@@ -27,6 +27,6 @@ import image from "@/assets/img/city-profile.jpg";
     <Profile />
     <Posts />
   </div>
-  <Contact />
+  <Contact id="updateUser"/>
   <Footer />
 </template>
