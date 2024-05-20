@@ -3,7 +3,7 @@
 
 <template>
   <section class="pb-5 mx-n3">
-    <h2>Visited Places</h2>
+    <h3>Visited Places</h3>
     <div class="container">
       <div class="row">
         <div class="col">
