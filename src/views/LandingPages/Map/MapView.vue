@@ -10,6 +10,10 @@ import MapTable from "./Sections/MapTable.vue";
 import MapVisited from "./Sections/MapVisited.vue";
 import MapFavorite from "./Sections/MapFavorite.vue";
 
+import {useAuthStore} from '@/stores/authStore'
+
+const {authStore} = useAuthStore();
+
 const body = document.getElementsByTagName("body")[0];
 
 const positions = ref([]);
@@ -18,6 +22,8 @@ const mapComponent = ref(null);
 const current = {};
 
 const trips = ref([]);
+const favoriteList = ref([]);
+const visitedList = ref([]);
 
 onMounted(() => {
   body.classList.add("about-us");
@@ -35,6 +41,11 @@ onMounted(() => {
   }
 
   setCurrentPosition();
+
+  if (authStore.isLogin) {
+    // getVisitedList();
+    getFavoriteList();
+  }
 });
 
 onUnmounted(() => {
@@ -104,6 +115,49 @@ async function getList() {
     console.error(error);
   }
 }
+
+async function getFavoriteList() {
+  try {
+
+    let { data } = await http.get("/favorite/" + authStore.userSeq);
+    console.log(data);
+    
+    favoriteList.value = data;
+
+    positions.value = data.map(item => ({
+      lat: item.latitude,
+      lng: item.longitude
+    }));
+
+    if (positions.value.length > 0) {
+      setMarkers(positions);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function getVisitedList() {
+  try {
+
+    let { data } = await http.get("/visited/" + authStore.userSeq);
+    console.log(data);
+    
+    visitedList.value = data;
+
+    positions.value = data.map(item => ({
+      lat: item.latitude,
+      lng: item.longitude
+    }));
+
+    if (positions.value.length > 0) {
+      setMarkers(positions);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 </script>
 
 <template>
@@ -206,10 +260,12 @@ async function getList() {
     </div>
   </header>
   <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
-    <MapMap ref="mapComponent" :positions="positions"/>
+    <MapMap ref="mapComponent" :positions="positions"/><br>
     <MapTable ref="mapTableRef" :search-results="trips" @update-positions="updatePositions" @move-center="moveCenter" />
-    <MapVisited />
-    <MapFavorite />
+    <template v-if="authStore.isLogin">
+      <!-- <MapVisited :favorite-list="favoriteList" /> -->
+      <!-- <MapFavorite :favorite-list="favoriteList" /> -->
+    </template>
   </div>
   <DefaultFooter />
 </template>
