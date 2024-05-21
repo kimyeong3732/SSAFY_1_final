@@ -9,8 +9,8 @@ export const useAuthStore = defineStore('authStore', () => {
     isLogin: false,
 
     userName: '',
-    userProfileImage: sessionStorage.getItem("userProfileImge"),
-    userRole: sessionStorage.getItem("userRole"),
+    userProfileImage: null,
+    userRole: '010',
     userMessage: 'Nothing there. Please edit your profile to put a message.',
 
     // Login
@@ -78,7 +78,4 @@ export const useAuthStore = defineStore('authStore', () => {
     logout,
     setProfileImage
   }
-},
-{
-  persist: true
 })

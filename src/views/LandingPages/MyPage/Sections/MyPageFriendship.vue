@@ -18,26 +18,49 @@ import post4 from "@/assets/img/examples/blog2.jpg";
         </div>
       </div>
       <div class="row">
-        <div class="col-lg-3 col-sm-6">
-          <TransparentBlogCard
-            :image="post1"
-            title="Kim Young Soo"
-            description="Finding temporary housing for your dog should be as easy as renting an Airbnb. That’s the idea behind Rover ..."
-          />
-        </div>
-        <div class="col-lg-3 col-sm-6">
-          <TransparentBlogCard
-            :image="post2"
-            title="Song Do Eon"
-            description="If you’ve ever wanted to train a machine learning model and integrate it with IFTTT, you now can with ..."
-          />
-        </div>
-        <div class="col-lg-3 col-sm-6">
-          <TransparentBlogCard
-            :image="post3"
-            title="Lee Hyun Kyu"
-            description="If you’ve ever wanted to train a machine learning model and integrate it with IFTTT, you now can with ..."
-          />
+        <div class="scrollable-row col-lg-9 col-md-12 col-12">
+          <div class="col-lg-4 col-sm-6">
+            <TransparentBlogCard
+              :image="post1"
+              title="Kim Young Soo"
+              description="Finding temporary housing for your dog should be as easy as renting an Airbnb. That’s the idea behind Rover ..."
+            />
+          </div>
+          <div class="col-lg-4 col-sm-6">
+            <TransparentBlogCard
+              :image="post2"
+              title="Song Do Eon"
+              description="If you’ve ever wanted to train a machine learning model and integrate it with IFTTT, you now can with ..."
+            />
+          </div>
+          <div class="col-lg-4 col-sm-6">
+            <TransparentBlogCard
+              :image="post3"
+              title="Lee Hyun Kyu"
+              description="If you’ve ever wanted to train a machine learning model and integrate it with IFTTT, you now can with ..."
+            />
+          </div>
+          <div class="col-lg-4 col-sm-6">
+            <TransparentBlogCard
+              :image="post3"
+              title="Lee Hyun Kyu"
+              description="If you’ve ever wanted to train a machine learning model and integrate it with IFTTT, you now can with ..."
+            />
+          </div>
+          <div class="col-lg-4 col-sm-6">
+            <TransparentBlogCard
+              :image="post3"
+              title="Lee Hyun Kyu"
+              description="If you’ve ever wanted to train a machine learning model and integrate it with IFTTT, you now can with ..."
+            />
+          </div>
+          <div class="col-lg-4 col-sm-6">
+            <TransparentBlogCard
+              :image="post3"
+              title="Lee Hyun Kyu"
+              description="If you’ve ever wanted to train a machine learning model and integrate it with IFTTT, you now can with ..."
+            />
+          </div>
         </div>
         <div class="col-lg-3 col-md-12 col-12">
           <BackgroundBlogCard
@@ -50,3 +73,21 @@ import post4 from "@/assets/img/examples/blog2.jpg";
     </div>
   </section>
 </template>
+
+<style>
+  
+  .scrollable-row {
+      display: flex;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .scrollable-row .col-lg-4 {
+      display: inline-block;
+      float: none;
+      white-space: normal;
+      margin-right: 15px; /* Add space between cards */
+    }
+    .scrollable-row .col-lg-4:last-child {
+      margin-right: 0; /* Remove margin for the last card */
+    }
+</style>

@@ -27,13 +27,13 @@ const userPassword = ref(authStore.userPassword)
 const userPassword2 = ref('')
 const userMessage = ref(authStore.userMessage)
 
-const isUserNameFocus = ref(true)
+const isUserNameFocus = ref(false)
 const isUserPasswordFocus = ref(false)
 const isUserPassword2Focus = ref(false)
-const isUserMessageFocus = ref(true)
+const isUserMessageFocus = ref(false)
 
 const isUserNameValid = ref(true)
-const isUserPasswordValid = ref(false)
+const isUserPasswordValid = ref(true)
 const isUserPassword2Valid = ref(false)
 const isUserMessageValid = ref(true)
 
@@ -73,7 +73,11 @@ const validateUserMessage = () => {
 }
 
 const updateUser = async() => {
-  if (!isUserNameValid || !isUserPasswordValid || !isUserPassword2Valid || !isUserMessageValid) return;
+  if (!isUserNameValid.value
+    || !isUserPasswordValid.value
+    || !isUserPassword2Valid.value
+    || !isUserMessageValid.value
+  ) return;
 
   let updateObj = {
     userName: userName.value,
@@ -93,8 +97,8 @@ const updateUser = async() => {
     authStore.userPassword = updateObj.userPassword;
     authStore.userMessage = updateObj.userMessage;
     alert('회원 정보 수정이 완료되었습니다.');
-    document.querySelector('#passconfirm').value = '';
-    // router.push("/pages/landing-pages/mypage");
+    // document.querySelector('#passconfirm').value = '';
+    router.push("/");
     // let $this = this;
     // $alertify.alert("회원가입을 축하합니다. 로그인 페이지로 이동합니다", function () {
     //    $$router.push("/login");
