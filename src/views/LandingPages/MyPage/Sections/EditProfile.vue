@@ -18,7 +18,7 @@ import http from "@/common/axios.js";
 import { useAppStore } from "@/stores";
 import { useAuthStore } from "../../../../stores/authStore";
 const store = useAppStore();
-const { authStore } = useAuthStore();
+const { authStore, setLogout } = useAuthStore();
 
 const router = useRouter()
 
@@ -107,8 +107,23 @@ const updateUser = async() => {
   }
 }
 
-const deleteUser = () => {
-  console.log(1);
+const deleteUser = async() => {
+  try {
+    let { data } = await http.delete("/users/" + authStore.userEmail);
+    console.log("UsersDelete: data : ");
+    console.log(data.result);
+
+    if (data.result == "success") {
+      alert("회원 탈퇴되었습니다.");
+      setLogout();
+      router.push("/");
+    } else {
+      alert('회원 탈퇴 중 오류가 발생했습니다.');
+    }
+  } catch (error) {
+    alert('회원 탈퇴 중 오류가 발생했습니다.');
+    console.log(error);
+  }
 }
 
 onMounted(() => {
