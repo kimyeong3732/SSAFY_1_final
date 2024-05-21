@@ -53,50 +53,50 @@ const isUserPassword2FocusAndValid = computed(() => isUserPassword2Focus.value &
 const isUserPassword2FocusAndInvalid = computed(() => isUserPassword2Focus.value && !isUserPassword2Valid.value) 
 
 const getCodeList = async () => {
-    let params = {
-        groupCode: groupCode // reactive X
-    };
+  let params = {
+    groupCode: groupCode // reactive X
+  };
 
-    try {
-        let { data } = await http.get("/codes", { params }); // params : params shorthand property, Not JSON request
-        console.log("UsersPage: data : ");
-        console.log(data);
+  try {
+    let { data } = await http.get("/codes", { params }); // params : params shorthand property, Not JSON request
+    console.log("UsersPage: data : ");
+    console.log(data);
 
-        codeList.value = data;
-    } catch (error) {
-        console.log("UsersPage: error : ");
-        console.log(error);
-        alert("서버에 문제가 발생했습니다.");
-    }
+    codeList.value = data;
+  } catch (error) {
+    console.log("UsersPage: error : ");
+    console.log(error);
+    alert("서버에 문제가 발생했습니다.");
+  }
 }
 
 const register = async () => {
-    if (!isUserEmailValid || !isUserPasswordValid || !isUserPassword2Valid) return;
+  if (!isUserEmailValid || !isUserPasswordValid || !isUserPassword2Valid) return;
 
-    let registerObj = {
-        userName: userName.value,
-        userEmail: userEmail.value,
-        userPassword: userPassword.value,
-        userClsf: userClsf.value,
-    };
+  let registerObj = {
+    userName: userName.value,
+    userEmail: userEmail.value,
+    userPassword: userPassword.value,
+    userClsf: userClsf.value,
+  };
 
-    try {
-        let { data } = await http.post("/users", registerObj); // JSON Request, { params : registerObj } X params 를 쓰면 get => query string
-        console.log("UsersPage: data : ");
-        console.log(data.result);
+  try {
+    let { data } = await http.post("/users", registerObj); // JSON Request, { params : registerObj } X params 를 쓰면 get => query string
+    console.log("UsersPage: data : ");
+    console.log(data.result);
 
-        alert('회원가입을 축하합니다. 로그인 페이지로 이동합니다.');
-        router.push("/pages/landing-pages/signin");
-        // let $this = this;
-        // $alertify.alert("회원가입을 축하합니다. 로그인 페이지로 이동합니다", function () {
-        //    $$router.push("/login");
-        // });
-    } catch (error) {
-        console.log("UsersPage: error : ");
-        console.log(error);
-        // $alertify.error("서버에 문제가 발생했습니다.");
-        alert('서버에 문제가 발생했습니다.')
-    }
+    alert('회원가입을 축하합니다. 로그인 페이지로 이동합니다.');
+    router.push("/pages/landing-pages/signin");
+    // let $this = this;
+    // $alertify.alert("회원가입을 축하합니다. 로그인 페이지로 이동합니다", function () {
+    //    $$router.push("/login");
+    // });
+  } catch (error) {
+    console.log("UsersPage: error : ");
+    console.log(error);
+    // $alertify.error("서버에 문제가 발생했습니다.");
+    alert('서버에 문제가 발생했습니다.')
+  }
 }
 
 const validateUserName = () => {
@@ -104,28 +104,28 @@ const validateUserName = () => {
     console.log(isUserNameValid.value);
 }
 const validateEmail = () => {
-    // ^ 시작일치, $ 끝 일치
-    // {2, 3} 2개 ~ 3개
-    // * 0회 이상, + 1회 이상
-    // [-_.] - 또는 _ 또는 .
-    // ? 없거나 1회
-    let regexp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-    isUserEmailValid.value = regexp.test(userEmail.value) ? true : false;
-    console.log(isUserEmailValid.value);
-  }
-  const validatePassword = () => {
-    let patternEngAtListOne = new RegExp(/[a-zA-Z]+/); // + for at least one
-    let patternSpeAtListOne = new RegExp(/[~!@#$%^&*()_+|<>?:{}]+/); // + for at least one
-    let patternNumAtListOne = new RegExp(/[0-9]+/); // + for at least one
+  // ^ 시작일치, $ 끝 일치
+  // {2, 3} 2개 ~ 3개
+  // * 0회 이상, + 1회 이상
+  // [-_.] - 또는 _ 또는 .
+  // ? 없거나 1회
+  let regexp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+  isUserEmailValid.value = regexp.test(userEmail.value) ? true : false;
+  console.log(isUserEmailValid.value);
+}
+const validatePassword = () => {
+  let patternEngAtListOne = new RegExp(/[a-zA-Z]+/); // + for at least one
+  let patternSpeAtListOne = new RegExp(/[~!@#$%^&*()_+|<>?:{}]+/); // + for at least one
+  let patternNumAtListOne = new RegExp(/[0-9]+/); // + for at least one
 
-    isUserPasswordValid.value = 
-        patternEngAtListOne.test(userPassword.value) && 
-        patternSpeAtListOne.test(userPassword.value) && 
-        patternNumAtListOne.test(userPassword.value) && 
-        userPassword.value.length >= 8 ? true : false;
+  isUserPasswordValid.value = 
+    patternEngAtListOne.test(userPassword.value) && 
+    patternSpeAtListOne.test(userPassword.value) && 
+    patternNumAtListOne.test(userPassword.value) && 
+    userPassword.value.length >= 8 ? true : false;
 }
 const validatePassword2 = () => {
-    isUserPassword2Valid.value = userPassword.value == userPassword2.value ? true : false;
+  isUserPassword2Valid.value = userPassword.value == userPassword2.value ? true : false;
 }
 
 getCodeList();

@@ -95,8 +95,8 @@ const { authStore, logout, setLogout } = useAuthStore();
 const router = useRouter();
 
 const navLogout = () => {
-  // logout();
-  setLogout();
+  logout();
+  // setLogout();
   router.push('/');
 }
 </script>

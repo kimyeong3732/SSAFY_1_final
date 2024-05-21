@@ -53,10 +53,12 @@ const login = async () => {
 
     console.log("LoginVue: data : ");
     console.log(data);
-    console.log(data.userName);
+    console.log(data.userDto);
+    console.log(data.result)
 
     if( data.result == "success" ){
-      setLogin({ isLogin: true, userName: data.userName, userProfileImage: data.userProfileImage, userRole: data.userRole });
+      let { userDto } = data;
+      setLogin({ isLogin: true, userName: userDto.userName, userProfileImage: userDto.userProfileImage, userRole: userDto.userClsf, userMessage: userDto.userMessage });
       // board 로 이동
       router.push("/");
     }else if( data.result == "fail" ){
