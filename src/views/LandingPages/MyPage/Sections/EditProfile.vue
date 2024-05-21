@@ -368,3 +368,30 @@ onMounted(() => {
     </div>
   </section>
 </template>
+
+<style>
+.input-group-static .form-control.is-valid, 
+.input-group-static .form-control.is-invalid {
+  border: none; /* 경계선 제거 */
+  /* border-bottom: 2px solid; 밑줄 두께 설정 */
+}
+
+.input-group-static .form-control.is-valid {
+  border-bottom-color: #28a745; /* valid 상태의 밑줄 색상 (녹색) */
+}
+
+.input-group-static .form-control.is-invalid {
+  border-bottom-color: #dc3545; /* invalid 상태의 밑줄 색상 (빨강색) */
+}
+
+/* input이 focus 상태일 때 */
+.input-group-static .form-control:focus.is-valid {
+  box-shadow: none;
+  border-bottom-color: #28a745; /* valid 상태의 focus 밑줄 색상 */
+}
+
+.input-group-static .form-control:focus.is-invalid {
+  box-shadow: none;
+  border-bottom-color: #dc3545; /* invalid 상태의 focus 밑줄 색상 */
+}
+</style>
