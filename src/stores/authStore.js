@@ -2,17 +2,15 @@ import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 
 import http from "@/common/axios.js";
-import notLoginUserProfileImage from '@/assets/noProfileImage.jpg';
 
 export const useAuthStore = defineStore('authStore', () => {
-  console.log(notLoginUserProfileImage)
   const authStore = reactive({
     // NavBar
     isLogin: false,
 
     userName: '',
-    userProfileImage: notLoginUserProfileImage,
-    userRole: '010',
+    userProfileImage: sessionStorage.getItem("userProfileImge"),
+    userRole: sessionStorage.getItem("userRole"),
     userMessage: 'Nothing there. Please edit your profile to put a message.',
 
     // Login
@@ -24,12 +22,19 @@ export const useAuthStore = defineStore('authStore', () => {
   const setLogin = (payload) => {
     sessionStorage.setItem("isLogin", "true");
     sessionStorage.setItem("userName", payload.userName);
-    sessionStorage.setItem("userProfileImage", payload.userProfileImage);
     sessionStorage.setItem('userRole', payload.userRole);
+    
+    if(payload.userMessage) {
+      authStore.userMessage = payload.userMessage;
+    }
+    if(payload.userProfileImage) {
+      authStore.userProfileImage = 'http://localhost:8080/img/' + payload.userProfileImage.fileUUID;
+    }
+    
+    sessionStorage.setItem("userProfileImage", authStore.userProfileImage);
 
     authStore.isLogin = payload.isLogin;
     authStore.userName = payload.userName;
-    authStore.userProfileImage = payload.userProfileImage;
     authStore.userRole = payload.userRole;
     console.log(authStore)
   }
@@ -54,14 +59,26 @@ export const useAuthStore = defineStore('authStore', () => {
 
     authStore.isLogin = false;
     authStore.userName = '';
-    authStore.userProfileImage = notLoginUserProfileImage;
+    authStore.userProfileImage = null;
     authStore.userRole = '010';
+    authStore.userMessage = 'Nothing there. Please edit your profile to put a message.';
+    
+    // authStore.userEmail = '';
+    // authStore.userPassword = '';
+  }
+
+  const setProfileImage = (img) => {
+    authStore.userProfileImage = img;
   }
 
   return {
     authStore,
     setLogin,
     setLogout,
-    logout
+    logout,
+    setProfileImage
   }
+},
+{
+  persist: true
 })

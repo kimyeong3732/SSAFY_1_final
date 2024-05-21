@@ -12,11 +12,13 @@ import bgContact from "@/assets/img/examples/blog2.jpg";
 // tooltip
 import setTooltip from "@/assets/js/tooltip";
 
+import http from "@/common/axios.js";
+
 // store
 import { useAppStore } from "@/stores";
 import { useAuthStore } from "../../../../stores/authStore";
 const store = useAppStore();
-const { authStore } = useAuthStore();
+const { authStore, setLogout } = useAuthStore();
 
 const router = useRouter()
 
@@ -45,29 +47,83 @@ const isUserMessageFocusAndValid = computed(() => isUserMessageFocus.value && is
 const isUserMessageFocusAndInvalid = computed(() => isUserMessageFocus.value && !isUserMessageValid.value) 
 
 const validateUserName = () => {
-    isUserNameValid.value = userName.value.length > 0 ? true : false;
-    console.log(isUserNameValid.value);
+  isUserNameValid.value = userName.value.length > 0 ? true : false;
+  console.log(isUserNameValid.value);
 }
 
 const validatePassword = () => {
-    let patternEngAtListOne = new RegExp(/[a-zA-Z]+/); // + for at least one
-    let patternSpeAtListOne = new RegExp(/[~!@#$%^&*()_+|<>?:{}]+/); // + for at least one
-    let patternNumAtListOne = new RegExp(/[0-9]+/); // + for at least one
+  let patternEngAtListOne = new RegExp(/[a-zA-Z]+/); // + for at least one
+  let patternSpeAtListOne = new RegExp(/[~!@#$%^&*()_+|<>?:{}]+/); // + for at least one
+  let patternNumAtListOne = new RegExp(/[0-9]+/); // + for at least one
 
-    isUserPasswordValid.value = 
-        patternEngAtListOne.test(userPassword.value) && 
-        patternSpeAtListOne.test(userPassword.value) && 
-        patternNumAtListOne.test(userPassword.value) && 
-        userPassword.value.length >= 8 ? true : false;
+  isUserPasswordValid.value = 
+    patternEngAtListOne.test(userPassword.value) && 
+    patternSpeAtListOne.test(userPassword.value) && 
+    patternNumAtListOne.test(userPassword.value) && 
+    userPassword.value.length >= 8 ? true : false;
 }
 
 const validatePassword2 = () => {
-    isUserPassword2Valid.value = userPassword.value == userPassword2.value ? true : false;
+  isUserPassword2Valid.value = userPassword.value == userPassword2.value ? true : false;
 }
 
 const validateUserMessage = () => {
-    isUserMessageValid.value = userMessage.value.length > 0 ? true : false;
-    console.log(isUserMessageValid.value);
+  isUserMessageValid.value = userMessage.value.length > 0 ? true : false;
+  console.log(isUserMessageValid.value);
+}
+
+const updateUser = async() => {
+  if (!isUserNameValid || !isUserPasswordValid || !isUserPassword2Valid || !isUserMessageValid) return;
+
+  let updateObj = {
+    userName: userName.value,
+    userEmail: authStore.userEmail,
+    userPassword: userPassword.value,
+    userMessage: userMessage.value,
+  };
+
+  console.log(updateObj);
+
+  try {
+    let { data } = await http.put("/users", updateObj);
+    console.log("UsersUpdate: data : ");
+    console.log(data.result);
+
+    authStore.userName = updateObj.userName;
+    authStore.userPassword = updateObj.userPassword;
+    authStore.userMessage = updateObj.userMessage;
+    alert('회원 정보 수정이 완료되었습니다.');
+    document.querySelector('#passconfirm').value = '';
+    // router.push("/pages/landing-pages/mypage");
+    // let $this = this;
+    // $alertify.alert("회원가입을 축하합니다. 로그인 페이지로 이동합니다", function () {
+    //    $$router.push("/login");
+    // });
+  } catch (error) {
+    console.log("UsersUpdate: error : ");
+    console.log(error);
+    // $alertify.error("서버에 문제가 발생했습니다.");
+    alert('서버에 문제가 발생했습니다.')
+  }
+}
+
+const deleteUser = async() => {
+  try {
+    let { data } = await http.delete("/users/" + authStore.userEmail);
+    console.log("UsersDelete: data : ");
+    console.log(data.result);
+
+    if (data.result == "success") {
+      alert("회원 탈퇴되었습니다.");
+      setLogout();
+      router.push("/");
+    } else {
+      alert('회원 탈퇴 중 오류가 발생했습니다.');
+    }
+  } catch (error) {
+    alert('회원 탈퇴 중 오류가 발생했습니다.');
+    console.log(error);
+  }
 }
 
 onMounted(() => {
@@ -172,7 +228,7 @@ onMounted(() => {
                 </div> -->
               </div>
               <div class="col-lg-7">
-                <form class="p-3" id="contact-form" method="post">
+                <div class="p-3">
                   <div class="card-header px-4 py-sm-5 py-3">
                     <h2>Edit Profile</h2>
                     <!-- <p class="lead">We'd like to talk with you.</p> -->
@@ -228,6 +284,7 @@ onMounted(() => {
                           <label>Password Confirm</label>
                           <input
                             type="password"
+                            id="passconfirm"
                             class="form-control"
                             :class="{ 'is-valid': isUserPassword2FocusAndValid, 'is-invalid': isUserPassword2FocusAndInvalid }"
                             placeholder="Password Confirm"
@@ -273,7 +330,17 @@ onMounted(() => {
                     <div class="row">
                       
                       <div class="col-md-6 text-end ms-auto">
-                        <MaterialButton 
+                        <button
+                          class="btn w-auto me-2 bg-gradient-danger"
+                          @click="deleteUser"
+                          >Quit</button
+                        >
+                        <button
+                          class="btn w-auto me-2 bg-gradient-success"
+                          @click="updateUser"
+                          >Save</button
+                        >
+                        <!-- <MaterialButton 
                           variant="gradient" 
                           color="danger" 
                           class="w-auto me-2"
@@ -284,11 +351,11 @@ onMounted(() => {
                           type="submit"
                           class="w-auto me-2"
                           >Save</MaterialButton
-                        >
+                        > -->
                       </div>
                     </div>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>

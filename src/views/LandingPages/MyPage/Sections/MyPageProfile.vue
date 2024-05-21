@@ -1,5 +1,6 @@
 <script setup>
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
+import http from "@/common/axios.js";
 
 //Vue Material Kit 2 components
 import MaterialAvatar from "@/components/MaterialAvatar.vue";
@@ -7,16 +8,72 @@ import MaterialButton from "@/components/MaterialButton.vue";
 
 // image
 import profilePic from "@/assets/img/bruce-mars.jpg";
+import notLoginUserProfileImage from '@/assets/img/noProfileImage.jpg';
 
 import { useAuthStore } from "../../../../stores/authStore";
 
 // material-input
 import setMaterialInput from "@/assets/js/material-input";
+
+import { useRouter } from 'vue-router'
+import {storeToRefs} from 'pinia'
+const router = useRouter()
+
+const { authStore, setProfileImage } = useAuthStore();
+
+console.log(authStore);
+
 onMounted(() => {
   setMaterialInput();
+
+  // if(authStore.userProfileImage == null) {
+  //   authStore.userProfileImage = notLoginUserProfileImage;
+  // }
 });
 
-const { authStore } = useAuthStore();
+const changeImg = async(fileEvent) => {
+  authStore.userProfileImage = '';
+
+  const imgs = Array.from(fileEvent.target.files);
+
+  imgs.forEach(file => {
+    setProfileImage(URL.createObjectURL(file));
+  });
+  
+  let formData = new FormData();
+
+  // file upload
+  let file = Array.from(imgs)[0];
+  formData.append("file", file);
+  console.log(file);
+
+  let options = { 
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }
+
+  try{
+  let {data} = await http.post('/users/img', formData, options);
+
+  console.log("InsertUserImage: data : ");
+  console.log(data);
+  if (data.result == "login") {
+      doLogout();
+  }
+  else if(data.result == "success"){
+    alert('사진이 등록되었습니다.');
+    console.log(file)
+    console.log(authStore.userProfileImage)
+    // router.go(0);
+  }
+  else {
+    alert('사진 등록 중 오류가 발생했습니다.')
+  }
+
+  }catch(error){
+    alert('사진 등록 중 오류가 발생했습니다.')
+    console.log(error);
+  }
+}
 </script>
 <template>
   <section class="py-sm-7 py-5 position-relative">
@@ -25,12 +82,20 @@ const { authStore } = useAuthStore();
         <div class="col-12 mx-auto">
           <div class="mt-n8 mt-md-n9 text-center">
             <div class="blur-shadow-avatar">
-              <MaterialAvatar
+              <label for="file-input">
+                <img
+                  class="avatar avatar-xxl shadow-xl position-relative z-index-2"
+                  :src="authStore.userProfileImage"
+                  alt="Avatar"
+                >
+              </label>
+              <input @change="changeImg" type="file" id="file-input" style="display: none;">
+              <!-- <MaterialAvatar
                 size="xxl"
                 class="shadow-xl position-relative z-index-2"
                 :image="authStore.userProfileImage"
                 alt="Avatar"
-              />
+              /> -->
             </div>
           </div>
           <div class="row py-7">
