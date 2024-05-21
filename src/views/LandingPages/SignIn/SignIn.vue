@@ -58,7 +58,7 @@ const login = async () => {
 
     if( data.result == "success" ){
       let { userDto } = data;
-      setLogin({ isLogin: true, userName: userDto.userName, userProfileImage: userDto.userProfileImage, userRole: userDto.userClsf, userMessage: userDto.userMessage });
+      setLogin({ isLogin: true, userSeq: userDto.userSeq, userName: userDto.userName, userProfileImage: userDto.userProfileImage, userRole: userDto.userClsf, userMessage: userDto.userMessage });
       // board 로 이동
       router.push("/");
     }else if( data.result == "fail" ){

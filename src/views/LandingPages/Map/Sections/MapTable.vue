@@ -1,6 +1,7 @@
 <template>
-  <section class="pb-5 position-relative bg-gradient-dark mx-n3">
+  <section class="pb-5 position-relative bg-gradient-dark " >
     <div class="container">
+      <br>
       <h3 class="text-white">Search Result</h3>
       <div class="row">
         <div class="col">
@@ -30,13 +31,17 @@
           <nav v-if="shouldRenderPagination" aria-label="Page navigation">
             <ul class="pagination justify-content-center">
               <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-                <a class="page-link"  @click="prevPage">Previous</a>
+                <a class="page-link"  @click="prevPage">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
               </li>
-              <li class="page-item" v-for="page in totalPages" :key="page" :class="{ 'active': currentPage === page }">
+              <li class="page-item" v-for="page in displayedPages" :key="page" :class="{ 'active': currentPage === page }">
                 <a class="page-link"  @click="changePage(page)">{{ page }}</a>
               </li>
               <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-                <a class="page-link"  @click="nextPage">Next</a>
+                <a class="page-link"  @click="nextPage">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
               </li>
             </ul>
           </nav>
@@ -59,7 +64,7 @@ const props = defineProps({
 const emit = defineEmits(['move-center']);
 
 // pagination을 위한 변수
-const itemsPerPage = 5; // 페이지 당 항목 수
+const itemsPerPage = 3; // 페이지 당 항목 수
 const currentPage = ref(1); // 현재 페이지
 
 // 전체 항목을 페이지로 분할하는 계산된 속성
@@ -71,6 +76,20 @@ const paginatedResults = computed(() => {
 
 // 전체 페이지 수 계산
 const totalPages = computed(() => Math.ceil(props.searchResults.length / itemsPerPage));
+
+// 표시되는 페이지 수 (최대 10개씩)
+const displayedPages = computed(() => {
+  const pages = [];
+  const maxDisplayedPages = 10; // 최대 표시되는 페이지 수
+  const startPage = Math.max(1, currentPage.value - Math.floor(maxDisplayedPages / 2));
+  const endPage = Math.min(startPage + maxDisplayedPages - 1, totalPages.value);
+
+  for (let i = startPage; i <= endPage; i++) {
+    pages.push(i);
+  }
+
+  return pages;
+});
 
 // 페이지 변경 함수
 function changePage(page) {

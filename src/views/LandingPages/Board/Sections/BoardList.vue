@@ -28,7 +28,7 @@ import {useBoardStore} from '@/stores/boardStore'
 import {useAuthStore} from '@/stores/authStore'
 
 const {boardStore, setBoardDetail } = useBoardStore();
-const {setLogout} = useAuthStore();
+const {authStore, setLogout} = useAuthStore();
 
 // router
 import { useRouter } from 'vue-router'
@@ -43,6 +43,9 @@ const boardDetail = async (boardId) => {
             doLogout();
         }else if(data.result == "success"){
             let { dto } = data;
+            if( authStore.userRole == '020' ) {
+                dto.sameUser = true;
+            }
             setBoardDetail(dto);
 
             // props.detailModal.show();

@@ -8,6 +8,7 @@ export const useAuthStore = defineStore('authStore', () => {
     // NavBar
     isLogin: false,
 
+    userSeq: '',
     userName: '',
     userProfileImage: null,
     userRole: '010',
@@ -34,6 +35,7 @@ export const useAuthStore = defineStore('authStore', () => {
     sessionStorage.setItem("userProfileImage", authStore.userProfileImage);
 
     authStore.isLogin = payload.isLogin;
+    authStore.userSeq = payload.userSeq;
     authStore.userName = payload.userName;
     authStore.userRole = payload.userRole;
     console.log(authStore)
@@ -58,6 +60,7 @@ export const useAuthStore = defineStore('authStore', () => {
     sessionStorage.removeItem("userRole");
 
     authStore.isLogin = false;
+    authStore.userSeq = '';
     authStore.userName = '';
     authStore.userProfileImage = null;
     authStore.userRole = '010';

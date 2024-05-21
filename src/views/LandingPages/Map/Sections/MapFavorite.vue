@@ -3,6 +3,7 @@
 
 <template>
   <section class="pb-5 position-relative bg-gradient-dark mx-n3">
+    <br>
     <h3 class="text-white">Favorite Places</h3>
     <div class="container">
       <div class="row">
