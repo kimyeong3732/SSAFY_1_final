@@ -71,7 +71,10 @@ const getCodeList = async () => {
 }
 
 const register = async () => {
-  if (!isUserEmailValid || !isUserPasswordValid || !isUserPassword2Valid) return;
+  if (!isUserEmailValid.value
+    || !isUserPasswordValid.value
+    || !isUserPassword2Valid.value
+  ) return;
 
   let registerObj = {
     userName: userName.value,
