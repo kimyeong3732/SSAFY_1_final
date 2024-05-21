@@ -18719,9 +18719,9 @@ body.dark-version {
 .input-group.input-group-dynamic.is-focused label, .input-group.input-group-static.is-focused label {
   color: #e91e63;
 }
-/* .input-group.input-group-dynamic.is-focused.is-valid label, .input-group.input-group-static.is-focused.is-valid label {
+.input-group.input-group-dynamic.is-focused.is-valid label, .input-group.input-group-static.is-focused.is-valid label {
   color: #4CAF50;
-} */
+}
 .input-group.input-group-dynamic.is-focused.is-valid .form-control, .input-group.input-group-dynamic.is-focused.is-valid .form-control:focus, .input-group.input-group-static.is-focused.is-valid .form-control, .input-group.input-group-static.is-focused.is-valid .form-control:focus {
   background-image: linear-gradient(0deg, #4CAF50 2px, rgba(156, 39, 176, 0) 0), linear-gradient(0deg, #d2d2d2 1px, hsla(0deg, 0%, 82%, 0) 0);
   border-radius: 0 !important;
