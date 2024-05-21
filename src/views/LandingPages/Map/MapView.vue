@@ -1,20 +1,10 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from "vue";
-
-// common
 import http from "@/common/axios.js";
-
-// example components
 import DefaultNavbar from "../../../examples/navbars/NavbarDefault.vue";
 import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
-
-// image
 import bg0 from "@/assets/img/bg9.jpg";
-
-// dep
 import Typed from "typed.js";
-
-// sections
 import MapMap from "./Sections/MapMap.vue";
 import MapTable from "./Sections/MapTable.vue";
 import MapVisited from "./Sections/MapVisited.vue";
@@ -67,13 +57,18 @@ function updatePositions(newPositions) {
   positions.value = newPositions;
 }
 
-function setMarkers(positions) {
-    mapComponent.value.setMarkers(positions);
+function moveCenter(latitude, longitude) {
+  if (mapComponent.value && mapComponent.value.setCenter) {
+    mapComponent.value.setCenter({ lat: latitude, lng: longitude });
+  }
 }
 
+function setMarkers(positions) {
+  if (mapComponent.value && mapComponent.value.setMarkers) {
+    mapComponent.value.setMarkers(positions);
+  }
+}
 
-
-// getList 함수 정의
 async function getList() {
   try {
     const sidoCode = document.querySelector("#sidoList").value;
@@ -81,7 +76,7 @@ async function getList() {
     const word = document.querySelector("#search-keyword").value;
     const chkSort = document.querySelector("#flexCheckChecked").checked ? "true" : "false";
     const curLatitude = current.lat;
-	  const curLongitude = current.lon;
+    const curLongitude = current.lon;
 
     let { data } = await http.get(`/attraction/search`, {
       params: {
@@ -95,16 +90,13 @@ async function getList() {
     });
     console.log(data);
     
-    // 데이터를 trips에 할당
     trips.value = data;
 
-    // positions 업데이트
     positions.value = data.map(item => ({
       lat: item.latitude,
       lng: item.longitude
     }));
 
-    // 맵의 중심을 첫 번째 여행지로 이동
     if (positions.value.length > 0) {
       setMarkers(positions);
     }
