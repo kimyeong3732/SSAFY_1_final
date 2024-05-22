@@ -8,6 +8,16 @@ import post1 from "@/assets/img/examples/testimonial-6-2.jpg";
 import post2 from "@/assets/img/examples/testimonial-6-3.jpg";
 import post3 from "@/assets/img/examples/blog-9-4.jpg";
 import post4 from "@/assets/img/examples/blog2.jpg";
+
+import { useFriendStore } from "../../../../stores/friendStore";
+import { onMounted } from "vue";
+
+const { friendStore, getFriend } = useFriendStore();
+
+onMounted(() => {
+  getFriend();
+  console.log(friendStore.friends)
+});
 </script>
 <template>
   <section class="py-3">
@@ -19,54 +29,20 @@ import post4 from "@/assets/img/examples/blog2.jpg";
       </div>
       <div class="row">
         <div class="scrollable-row col-lg-9 col-md-12 col-12">
-          <div class="col-lg-4 col-sm-6">
+          <div class="col-lg-4 col-sm-6" v-for="(friend, index) in friendStore.friends" :key="index">
             <TransparentBlogCard
-              :image="post1"
-              title="Kim Young Soo"
-              description="Finding temporary housing for your dog should be as easy as renting an Airbnb. That’s the idea behind Rover ..."
-            />
-          </div>
-          <div class="col-lg-4 col-sm-6">
-            <TransparentBlogCard
-              :image="post2"
-              title="Song Do Eon"
-              description="If you’ve ever wanted to train a machine learning model and integrate it with IFTTT, you now can with ..."
-            />
-          </div>
-          <div class="col-lg-4 col-sm-6">
-            <TransparentBlogCard
-              :image="post3"
-              title="Lee Hyun Kyu"
-              description="If you’ve ever wanted to train a machine learning model and integrate it with IFTTT, you now can with ..."
-            />
-          </div>
-          <div class="col-lg-4 col-sm-6">
-            <TransparentBlogCard
-              :image="post3"
-              title="Lee Hyun Kyu"
-              description="If you’ve ever wanted to train a machine learning model and integrate it with IFTTT, you now can with ..."
-            />
-          </div>
-          <div class="col-lg-4 col-sm-6">
-            <TransparentBlogCard
-              :image="post3"
-              title="Lee Hyun Kyu"
-              description="If you’ve ever wanted to train a machine learning model and integrate it with IFTTT, you now can with ..."
-            />
-          </div>
-          <div class="col-lg-4 col-sm-6">
-            <TransparentBlogCard
-              :image="post3"
-              title="Lee Hyun Kyu"
-              description="If you’ve ever wanted to train a machine learning model and integrate it with IFTTT, you now can with ..."
+              :image="`http://localhost:8080/img/${friend.userProfileImage.fileUUID}`"
+              :title=friend.userName
+              :description=friend.userMessage
+              :action="{color: 'danger', label: 'Unfriend', num: friend.userSeq}"
             />
           </div>
         </div>
         <div class="col-lg-3 col-md-12 col-12">
           <BackgroundBlogCard
             :image="post4"
-            title="Flexible work hours"
-            description="Rather than worrying about switching offices every couple years, you stay in the same place."
+            title="Friend Requests"
+            description="Search users to send friend requests<br>Or manage friend requests"
           />
         </div>
       </div>
@@ -75,19 +51,38 @@ import post4 from "@/assets/img/examples/blog2.jpg";
 </template>
 
 <style>
-  
-  .scrollable-row {
-      display: flex;
-      overflow-x: auto;
-      white-space: nowrap;
-    }
-    .scrollable-row .col-lg-4 {
-      display: inline-block;
-      float: none;
-      white-space: normal;
-      margin-right: 15px; /* Add space between cards */
-    }
-    .scrollable-row .col-lg-4:last-child {
-      margin-right: 0; /* Remove margin for the last card */
-    }
+.scrollable-row {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.scrollable-row::-webkit-scrollbar {
+  height: 8px;
+}
+
+.scrollable-row::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.scrollable-row::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.scrollable-row::-webkit-scrollbar-thumb:hover {
+  background: #bbb;
+}
+
+.scrollable-row .col-lg-4 {
+  display: inline-block;
+  float: none;
+  white-space: normal;
+  margin-right: 15px; /* Add space between cards */
+}
+
+.scrollable-row .col-lg-4:last-child {
+  margin-right: 0; /* Remove margin for the last card */
+}
 </style>

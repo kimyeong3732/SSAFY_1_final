@@ -14,12 +14,8 @@ defineProps({
   },
   action: {
     type: Object,
-    route: String,
-    label: String,
     color: String,
     default: () => ({
-      route: "javascript:;",
-      label: "Read more",
       color: "white",
     }),
   },
@@ -35,14 +31,19 @@ defineProps({
     <div class="card-body">
       <div class="content-left text-start my-auto py-4">
         <h2 class="card-title text-white">{{ title }}</h2>
-        <p class="card-description text-white">
-          {{ description }}
+        <p class="card-description text-white" v-html="description">
         </p>
         <a
-          href="javascript:;"
           class="text-sm icon-move-right"
           :class="`text-${action.color}`"
-          >{{ action.label }}
+          >Add friend
+          <i class="fas fa-arrow-right text-xs ms-1"></i>
+        </a>
+        <br>
+        <a
+          class="text-sm icon-move-right"
+          :class="`text-${action.color}`"
+          >Friend Requests
           <i class="fas fa-arrow-right text-xs ms-1"></i>
         </a>
       </div>
