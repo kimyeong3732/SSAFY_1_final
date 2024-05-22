@@ -17,6 +17,8 @@ const {authStore} = useAuthStore();
 const body = document.getElementsByTagName("body")[0];
 
 const positions = ref([]);
+const favoritePositions = ref([]);
+const visitedPositions = ref([]);
 const mapTableRef = ref(null);
 const mapComponent = ref(null);
 const current = {};
@@ -43,7 +45,7 @@ onMounted(() => {
   setCurrentPosition();
 
   if (authStore.isLogin) {
-    // getVisitedList();
+    getVisitedList();
     getFavoriteList();
   }
 });
@@ -74,10 +76,14 @@ function moveCenter(latitude, longitude) {
   }
 }
 
-function setMarkers(positions) {
+function setMarkers(positions, imageUrl) {
   if (mapComponent.value && mapComponent.value.setMarkers) {
-    mapComponent.value.setMarkers(positions);
+    mapComponent.value.setMarkers(positions, imageUrl);
   }
+}
+
+function clearMarkers() {
+  mapComponent.value.clearMarkers();
 }
 
 async function getList() {
@@ -105,12 +111,25 @@ async function getList() {
 
     positions.value = data.map(item => ({
       lat: item.latitude,
-      lng: item.longitude
+      lng: item.longitude,
+      title : item.title
     }));
 
+    clearMarkers();
+
     if (positions.value.length > 0) {
-      setMarkers(positions);
+      setMarkers(positions, '../../src/assets/img/search.png');
+      // positions 배열이 비어있지 않다면, 첫 번째 위치로 중심 이동
+      mapComponent.value.moveCenter(positions.value[0].lat, positions.value[0].lng); // moveCenter 함수 호출
+      // console.log(positions.value[0].title);
     }
+    if (favoritePositions.value.length > 0) {
+      setMarkers(favoritePositions, '../../src/assets/img/favorite.png');
+    }
+    if (visitedPositions.value.length > 0) {
+      setMarkers(visitedPositions, '../../src/assets/img/visited.png');
+    }
+
   } catch (error) {
     console.error(error);
   }
@@ -124,13 +143,14 @@ async function getFavoriteList() {
     
     favoriteList.value = data;
 
-    positions.value = data.map(item => ({
+    favoritePositions.value = data.map(item => ({
       lat: item.latitude,
-      lng: item.longitude
+      lng: item.longitude,
+      title : item.title
     }));
 
-    if (positions.value.length > 0) {
-      setMarkers(positions);
+    if (favoritePositions.value.length > 0) {
+      setMarkers(favoritePositions, '../../src/assets/img/favorite.png');
     }
   } catch (error) {
     console.error(error);
@@ -145,13 +165,14 @@ async function getVisitedList() {
     
     visitedList.value = data;
 
-    positions.value = data.map(item => ({
+    visitedPositions.value = data.map(item => ({
       lat: item.latitude,
-      lng: item.longitude
+      lng: item.longitude,
+      title : item.title
     }));
 
-    if (positions.value.length > 0) {
-      setMarkers(positions);
+    if (visitedPositions.value.length > 0) {
+      setMarkers(visitedPositions, '../../src/assets/img/visited.png');
     }
   } catch (error) {
     console.error(error);
@@ -263,8 +284,8 @@ async function getVisitedList() {
     <MapMap ref="mapComponent" :positions="positions"/><br>
     <MapTable ref="mapTableRef" :search-results="trips" @update-positions="updatePositions" @move-center="moveCenter" />
     <template v-if="authStore.isLogin">
-      <!-- <MapVisited :favorite-list="favoriteList" /> -->
-      <!-- <MapFavorite :favorite-list="favoriteList" /> -->
+      <MapFavorite :favorite-list="favoriteList" />
+      <MapVisited :visited-list="visitedList" />
     </template>
   </div>
   <DefaultFooter />
