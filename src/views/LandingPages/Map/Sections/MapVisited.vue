@@ -1,11 +1,11 @@
 <template>
-  <section class="pb-5 position-relative bg-gradient-white " >
+  <section class="pb-5 position-relative bg-gradient-dark " >
     <div class="container">
       <br>
-      <h3 class="text-black">Search Result</h3>
+      <h3 class="text-white">Visited Result</h3>
       <div class="row">
         <div class="col">
-          <table class="table table-striped text-black">
+          <table class="table table-striped text-white">
             <thead>
               <tr>
                 <th>대표이미지</th>
@@ -55,7 +55,7 @@
 import { defineEmits, defineProps, ref, computed } from 'vue';
 
 const props = defineProps({
-  favoriteList: {
+  visitedList: {
     type: Array,
     required: true
   }
@@ -71,11 +71,11 @@ const currentPage = ref(1); // 현재 페이지
 const paginatedResults = computed(() => {
   const startIndex = (currentPage.value - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  return props.favoriteList.slice(startIndex, endIndex);
+  return props.visitedList.slice(startIndex, endIndex);
 });
 
 // 전체 페이지 수 계산
-const totalPages = computed(() => Math.ceil(props.favoriteList.length / itemsPerPage));
+const totalPages = computed(() => Math.ceil(props.visitedList.length / itemsPerPage));
 
 // 표시되는 페이지 수 (최대 10개씩)
 const displayedPages = computed(() => {
@@ -121,5 +121,5 @@ function moveCenter(latitude, longitude) {
 }
 
 // 페이지네이션을 렌더링해야 하는지 여부 계산
-const shouldRenderPagination = computed(() => props.favoriteList.length > itemsPerPage);
+const shouldRenderPagination = computed(() => props.visitedList.length > itemsPerPage);
 </script>
