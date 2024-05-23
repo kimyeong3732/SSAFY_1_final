@@ -8,6 +8,7 @@ export const useFriendStore = defineStore('friendStore', () => {
     friends: [],
     users: [],
     requests: [],
+    notrejects: [],
     rejects: [],
   })
 
@@ -23,13 +24,17 @@ export const useFriendStore = defineStore('friendStore', () => {
     }
   }
 
+  const resetUser = () => {
+    friendStore.users = [];
+  }
+
   const getUser = async(str) => {
-    let friendObj = {
+    let params = {
         str: str,
     };
 
     try {
-      let { data } = await http.get("/friends/user", friendObj);
+      let { data } = await http.get("/friends/user", { params });
 
       if (data.result == "success") {
         friendStore.users = data.list;
@@ -51,6 +56,18 @@ export const useFriendStore = defineStore('friendStore', () => {
     }
   }
 
+  const getNotReject = async() => {
+    try {
+      let { data } = await http.get("/friends/notreject");
+
+      if (data.result == "success") {
+        friendStore.notrejects = data.list;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const getReject = async() => {
     try {
       let { data } = await http.get("/friends/reject");
@@ -63,7 +80,7 @@ export const useFriendStore = defineStore('friendStore', () => {
     }
   }
 
-  const addRequest = async(friendSeq)=> {
+  const addRequest = async(friendSeq, str)=> {
     let friendObj = {
         friendSeq: friendSeq,
     };
@@ -76,7 +93,7 @@ export const useFriendStore = defineStore('friendStore', () => {
       console.log(data.result)
   
       if( data.result == "success" ){
-        getRequest();
+        getUser(str);
       }else if( data.result == "fail" ){
         alert('친구 요청에 실패했습니다.');
       }
@@ -101,9 +118,6 @@ export const useFriendStore = defineStore('friendStore', () => {
         if(mode == 1) {
           getFriend();
         }
-        else if(mode == 0) {
-          getReject();
-        }
         getRequest();
       }else if( data.result == "fail" ){
         if(mode == 1) {
@@ -126,10 +140,12 @@ export const useFriendStore = defineStore('friendStore', () => {
       console.log(data);
       console.log(data.result)
   
-      if( data.result == "success" ){
+      if( data.result == "success" ) {
         getFriend();
+        getNotReject();
         getReject();
-      }else if( data.result == "fail" ){
+      }
+      else if( data.result == "fail" ){
         alert('친구 / 친구 요청 삭제에 실패했습니다.');
       }
     } catch (error) {
@@ -140,8 +156,10 @@ export const useFriendStore = defineStore('friendStore', () => {
   return {
     friendStore,
     getFriend,
+    resetUser,
     getUser,
     getRequest,
+    getNotReject,
     getReject,
     addRequest,
     updateRequest,

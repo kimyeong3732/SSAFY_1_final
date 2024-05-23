@@ -11,6 +11,24 @@ import Contact from "./Sections/EditProfile.vue";
 
 // image
 import image from "@/assets/img/city-profile.jpg";
+
+import AddFriendModal from "./Modals/AddFriendModal.vue";
+import FriendRequestModal from "./Modals/FriendRequestModal.vue";
+import { onMounted } from "vue";
+import { Modal } from "bootstrap";
+
+let addModal = null;
+let requestModal = null;
+
+onMounted(() => {
+  addModal = new Modal(document.getElementById("addModal"));
+  requestModal = new Modal(document.getElementById("requestModal"));
+});
+
+const showAdd = () => addModal.show();
+
+const showRequest = () => requestModal.show();
+
 </script>
 <template>
   <DefaultNavbar transparent />
@@ -25,8 +43,13 @@ import image from "@/assets/img/city-profile.jpg";
   </Header>
   <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6 mb-4">
     <Profile />
-    <Posts />
+    <Posts
+      @call-parent-show-add="showAdd"
+      @call-parent-show-request="showRequest"
+    />
   </div>
+  <AddFriendModal/>
+  <FriendRequestModal/>
   <Contact id="updateUser"/>
   <Footer />
 </template>

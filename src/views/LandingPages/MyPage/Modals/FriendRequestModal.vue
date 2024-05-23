@@ -1,34 +1,113 @@
 <template>
-    <div class="modal" tabindex="-1" id="insertModal">
+    <div class="modal" tabindex="-1" id="requestModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">글 쓰기</h5>
+                    <h5 class="modal-title">Friend requests</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-            
                     <div class="mb-3">
-                        <input v-model="title" type="text" class="form-control" placeholder="제목">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item" @click="activeTab = 'request'">
+                                <a class="nav-link" :class="{ active: activeTab === 'request' }">My Request</a>
+                            </li>
+                            <li class="nav-item" @click="activeTab = 'notResponse'">
+                                <a class="nav-link" :class="{ active: activeTab === 'notResponse' }">Not Response</a>
+                            </li>
+                            <li class="nav-item" @click="activeTab = 'rejected'">
+                                <a class="nav-link" :class="{ active: activeTab === 'rejected' }">Rejected</a>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="mb-3">
-                        <!-- <div id=divEditorInsert></div> -->
-                        <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
-                    </div>
-                    <div class="form-check mb-3">
-                        <input v-model="attachFile" class="form-check-input" type="checkbox" value="" id="chkFileUploadInsert">
-                        <label class="form-check-label" for="chkFileUploadInsert">파일 추가</label>
-                    </div>
-                    <div class="mb-3" v-show="attachFile" id="imgFileUploadInsertWrapper">
-                        <input @change="changeFile" type="file" id="inputFileUploadInsert" multiple>
-                        <div id="imgFileUploadInsertThumbnail" class="thumbnail-wrapper">
-                            <!-- vue way img 를 만들어서 append 하지 않고, v-for 로 처리 -->
-                            <img v-for="(file, index) in fileList" v-bind:src="file" v-bind:key="index">
+                    <!-- My Request Table -->
+                    <div v-if="activeTab === 'request'">
+                        <div class="table-request">
+                            <table class="w-100">
+                                <thead>
+                                    <tr>
+                                        <th class="col-1">#</th>
+                                        <th class="col-6">Name</th>
+                                        <th class="col-5">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(user, index) in paginatedRequestUsers" :key="index">
+                                        <td>{{ (requestCurrentPage - 1) * pageSize + index + 1 }}</td>
+                                        <td>{{ user.userName }}</td>
+                                        <td>
+                                            <button class="btn btn-success" @click="acceptRequest(user.userSeq)">Accept</button>
+                                            <button class="btn btn-danger" @click="rejectRequest(user.userSeq)">Reject</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p v-if="paginatedRequestUsers.length === 0">No requests</p>
                         </div>
+                        <pagination
+                            :current-page="requestCurrentPage"
+                            :total-pages="requestTotalPages"
+                            @change-page="changeRequestPage"
+                        />
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button @click="boardInsert" class="btn btn-sm btn-primary btn-outline" data-dismiss="modal" type="button">등록</button>
+                    <!-- Not Response Table -->
+                    <div v-if="activeTab === 'notResponse'">
+                        <div class="table-request">
+                            <table class="w-100">
+                                <thead>
+                                    <tr>
+                                        <th class="col-1">#</th>
+                                        <th class="col-9">Name</th>
+                                        <th class="col-2">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(user, index) in paginatedNotResponseUsers" :key="index">
+                                        <td>{{ (notResponseCurrentPage - 1) * pageSize + index + 1 }}</td>
+                                        <td>{{ user.userName }}</td>
+                                        <td>
+                                            <button class="btn btn-danger" @click="cancelRequest(user.userSeq)">Cancel</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p v-if="paginatedNotResponseUsers.length === 0">No requests</p>
+                        </div>
+                        <pagination
+                            :current-page="notResponseCurrentPage"
+                            :total-pages="notResponseTotalPages"
+                            @change-page="changeNotResponsePage"
+                        />
+                    </div>
+                    <!-- Rejected Table -->
+                    <div v-if="activeTab === 'rejected'">
+                        <div class="table-request">
+                            <table class="w-100">
+                                <thead>
+                                    <tr>
+                                        <th class="col-1">#</th>
+                                        <th class="col-9">Name</th>
+                                        <th class="col-2">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(user, index) in paginatedRejectedUsers" :key="index">
+                                        <td>{{ (rejectedCurrentPage - 1) * pageSize + index + 1 }}</td>
+                                        <td>{{ user.userName }}</td>
+                                        <td>
+                                            <button class="btn btn-secondary" @click="cancelRequest(user.userSeq)">Delete</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p v-if="paginatedRejectedUsers.length === 0">No requests</p>
+                        </div>
+                        <pagination
+                            :current-page="rejectedCurrentPage"
+                            :total-pages="rejectedTotalPages"
+                            @change-page="changeRejectedPage"
+                        />
+                    </div>
                 </div>
             </div>
         </div>
@@ -36,105 +115,81 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import http from "@/common/axios.js";
+import { ref, computed, onMounted } from 'vue';
+import Pagination from './FriendPagination.vue';
 
-import CKEditor from '@ckeditor/ckeditor5-vue'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { useFriendStore } from '../../../../stores/friendStore';
 
-import {useAuthStore} from '@/stores/authStore.js'
-const {setLogout} = useAuthStore()
+const activeTab = ref('request');
+const { friendStore, getRequest, getNotReject, getReject, updateRequest, deleteRequest } = useFriendStore();
+const pageSize = 5;
 
-// router
-import { useRouter } from 'vue-router'
-const router = useRouter()
+// Request tab pagination
+const requestCurrentPage = ref(1);
+const paginatedRequestUsers = computed(() => {
+  const start = (requestCurrentPage.value - 1) * pageSize;
+  const end = start + pageSize;
+  return friendStore.requests.slice(start, end);
+});
+const requestTotalPages = computed(() => Math.ceil(friendStore.requests.length / pageSize));
+const changeRequestPage = (page) => {
+  requestCurrentPage.value = page;
+};
 
-const ckeditor = CKEditor.component
-const editor = ClassicEditor
-const editorData = ref('')
-const editorConfig = {}
+// Not Response tab pagination
+const notResponseCurrentPage = ref(1);
+const paginatedNotResponseUsers = computed(() => {
+  const start = (notResponseCurrentPage.value - 1) * pageSize;
+  const end = start + pageSize;
+  return friendStore.notrejects.slice(start, end);
+});
+const notResponseTotalPages = computed(() => Math.ceil(friendStore.notrejects.length / pageSize));
+const changeNotResponsePage = (page) => {
+  notResponseCurrentPage.value = page;
+};
 
-const title = ref('')
-const attachFile = ref(false)
-const fileList = ref([]);
-const inputFile = ref('')
+// Rejected tab pagination
+const rejectedCurrentPage = ref(1);
+const paginatedRejectedUsers = computed(() => {
+  const start = (rejectedCurrentPage.value - 1) * pageSize;
+  const end = start + pageSize;
+  return friendStore.rejects.slice(start, end);
+});
+const rejectedTotalPages = computed(() => Math.ceil(friendStore.rejects.length / pageSize));
+const changeRejectedPage = (page) => {
+  rejectedCurrentPage.value = page;
+};
 
 onMounted(() => {
-    // console.log( document.querySelector("#inputFileUploadInsert") )
+  const thisModal = document.getElementById('requestModal');
+  thisModal.addEventListener("show.bs.modal", function () {
     initUI();
+  });
 });
 
 const initUI = () => {
-    title.value = '';
-    editorData.value = '';
-    attachFile.value = false;
-    fileList.value = [];
-    document.querySelector("#inputFileUploadInsert").value = '';
+    getRequest();
+    getNotReject();
+    getReject();
+
+    activeTab.value = 'request';
+    requestCurrentPage.value = 1;
+    notResponseCurrentPage.value = 1;
+    rejectedCurrentPage.value = 1;
 }
 
-const changeFile = (fileEvent) =>{
-    fileList.value = []; // thumbnail 초기화
-    
-    const fileArray = Array.from(fileEvent.target.files);
-    fileArray.forEach( file => {
-        fileList.value.push(URL.createObjectURL(file)); // push : array 에 항목 추가
-    });
-}
-        // 굳이 actions 에 있을 필요 없다. backend async 작업이지만, 그 결과로 store 를 변경하는 내용이 없다.
-const boardInsert = async () => {
-    let formData = new FormData();
-    formData.append("title", title.value);
-    formData.append("content", editorData.value);
-
-    // file upload
-    let attachFiles = document.querySelector("#inputFileUploadInsert").files;
-
-    if( attachFiles.length > 0 ) {
-        const fileArray = Array.from(attachFiles);
-        fileArray.forEach( file => formData.append("file", file) )
-    }
-
-    let options = { 
-        headers: { 'Content-Type': 'multipart/form-data' }
-    }
-
-    try{
-    let {data} = await http.post('/boards', formData, options);
-
-    console.log("InsertModalVue: data : ");
-    console.log(data);
-    if (data.result == "login") {
-        doLogout();
-    }else if(data.result == "success"){
-        alert('글이 등록되었습니다.');
-        closeModal();
-    }else {
-        alert('글 등록 중 오류가 발생했습니다.')
-    }
-
-    }catch(error){
-        alert('글 등록 중 오류가 발생했습니다.')
-        console.log(error);
-    }
+const acceptRequest = (userSeq) => {
+    updateRequest(userSeq, 1);
 }
 
-const emit = defineEmits(['call-parent-insert'])
-const closeModal = () => emit('call-parent-insert')
-
-// logout 처리 별도 method
-const doLogout = () => {
-    setLogout()
-    router.push("/login");
+const rejectRequest = (userSeq) => {
+    updateRequest(userSeq, 0);
 }
 
-onMounted(() => {
-    // bootstrap modal show event hook
-    // UpdateModal 이 보일 때 초기화
-    const thisModal = document.getElementById('insertModal')
-    thisModal.addEventListener("show.bs.modal", function () {
-        initUI();
-    });   
-});
+const cancelRequest = (userSeq) => {
+    deleteRequest(userSeq);
+}
+
 
 </script>
 
@@ -152,5 +207,52 @@ onMounted(() => {
     width: 100px !important;
     margin-right: 5px;
     max-width: 100%;
+}
+
+.table-request {
+    height: 318px;
+    overflow: auto;
+}
+
+/* Add styles for the nav-tabs */
+.nav-tabs .nav-link {
+    color: #7b809a;
+    cursor: pointer; /* Change cursor on hover */
+}
+
+.nav-tabs .nav-link.active {
+    color: #66d432;
+}
+
+.btn.btn-success {
+    background-color: #d1e7dd; /* 연두색 */
+    border-color: #bbe4d6; /* 연두색 */
+    color: #155724; /* 연두색 텍스트 */
+}
+
+.btn.btn-success:hover {
+    background-color: #45a049; /* Darker Green */
+    color: #fff;
+}
+
+.btn-danger {
+    background-color: #f8d7da; /* 연한 붉은색 */
+    border-color: #f5c6cb; /* 연한 붉은색 */
+    color: #721c24; /* 연한 붉은색 텍스트 */
+}
+
+.btn.btn-danger:hover {
+    background-color: #da190b; /* Darker Red */
+}
+
+.btn.btn-secondary {
+    background-color: #e2e3e5; /* 연한 회색 */
+    border-color: #d6d8db; /* 연한 회색 */
+    color: #6c757d; /* 연한 회색 텍스트 */
+}
+
+.btn.btn-secondary:hover {
+    background-color: #7b809a; /* Darker Red */
+    color: #fff;
 }
 </style>

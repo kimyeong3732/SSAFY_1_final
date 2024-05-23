@@ -67,9 +67,9 @@ const deleteFriend = (num) => {
 
 <style>
 .fixed-size-img {
-  width: 100%; /* Or a specific width, e.g., 200px */
-  height: 200px; /* Or a specific height, e.g., 200px */
-  object-fit: cover; /* To ensure the image covers the area */
+  width: 100% !important;/* Or a specific width, e.g., 200px */
+  height: 200px !important; /* Or a specific height, e.g., 200px */
+  object-fit: cover !important; /* To ensure the image covers the area */
 }
 
 .scrollable-text {

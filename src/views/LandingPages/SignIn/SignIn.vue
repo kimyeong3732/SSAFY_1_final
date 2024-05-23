@@ -136,6 +136,7 @@ const login = async () => {
                     type="password"
                     class="form-control"
                     v-model="authStore.userPassword"
+                    @keydown.enter="login"
                   />
                 </div>
                   <!-- <MaterialInput
