@@ -14,10 +14,21 @@ import { onMounted } from "vue";
 
 const { friendStore, getFriend } = useFriendStore();
 
+
 onMounted(() => {
   getFriend();
   console.log(friendStore.friends)
 });
+
+const emit = defineEmits(['call-parent-show-add', 'call-parent-show-request']);
+
+const showAdd = () => {
+  emit('call-parent-show-add');
+}
+
+const showRequest = () => {
+  emit('call-parent-show-request');
+}
 </script>
 <template>
   <section class="py-3">
@@ -43,6 +54,8 @@ onMounted(() => {
             :image="post4"
             title="Friend Requests"
             description="Search users to send friend requests<br>Or manage friend requests"
+            @call-parent-show-add="showAdd"
+            @call-parent-show-request="showRequest"
           />
         </div>
       </div>

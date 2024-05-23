@@ -20,6 +20,16 @@ defineProps({
     }),
   },
 });
+
+const emit = defineEmits(['call-parent-show-add', 'call-parent-show-request']);
+
+const friendAdd = () => {
+  emit('call-parent-show-add');
+}
+
+const friendRequest = () => {
+  emit('call-parent-show-request');
+}
 </script>
 <template>
   <div class="card card-blog card-background cursor-pointer">
@@ -36,6 +46,7 @@ defineProps({
         <a
           class="text-sm icon-move-right"
           :class="`text-${action.color}`"
+          @click="friendAdd"
           >Add friend
           <i class="fas fa-arrow-right text-xs ms-1"></i>
         </a>
@@ -43,6 +54,7 @@ defineProps({
         <a
           class="text-sm icon-move-right"
           :class="`text-${action.color}`"
+          @click="friendRequest"
           >Friend Requests
           <i class="fas fa-arrow-right text-xs ms-1"></i>
         </a>

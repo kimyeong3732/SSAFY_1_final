@@ -15,8 +15,8 @@ export const useAuthStore = defineStore('authStore', () => {
     userMessage: 'Nothing there. Please edit your profile to put a message.',
 
     // Login
-    userEmail: "dskim@dskim.com",
-    userPassword: "1234",
+    userEmail: "",
+    userPassword: "",
   })
 
   // getter 는 생략 직접 사용하는 걸로
@@ -66,8 +66,8 @@ export const useAuthStore = defineStore('authStore', () => {
     authStore.userRole = '010';
     authStore.userMessage = 'Nothing there. Please edit your profile to put a message.';
     
-    // authStore.userEmail = '';
-    // authStore.userPassword = '';
+    authStore.userEmail = '';
+    authStore.userPassword = '';
   }
 
   const setProfileImage = (img) => {
