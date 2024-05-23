@@ -66,6 +66,12 @@
     // 마커 이미지를 생성한다
     var markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
 
+    const favoriteMarkerImageUrl = '../../src/assets/img/favorite.png'; // Favorite marker image URL
+    const favoriteMarkerImage = new kakao.maps.MarkerImage(favoriteMarkerImageUrl, markerImageSize, markerImageOptions);
+
+    const visitedMarkerImageUrl = '../../src/assets/img/visited.png'; // Favorite marker image URL
+    const visitedMarkerImage = new kakao.maps.MarkerImage(visitedMarkerImageUrl, markerImageSize, markerImageOptions);
+
     // positions 배열을 순회하면서 마커 생성
     positions.value.forEach(pos => {
       const marker = new kakao.maps.Marker({
@@ -109,7 +115,7 @@
 
         if (!isFavorite) {
           document.getElementById('addFavorite').addEventListener('click', function() {
-            addFavoritePlace(pos);
+            addFavoritePlace(pos, marker, favoriteMarkerImage);
           });
         }
 
@@ -121,7 +127,7 @@
 
         if (!isVisited) {
           document.getElementById('addVisited').addEventListener('click', function() {
-            addVisitedPlace(pos);
+            addVisitedPlace(pos, marker, visitedMarkerImage);
           });
         }
 
@@ -150,7 +156,7 @@
     }
   }
 
-  const addFavoritePlace = async (pos) => {
+  const addFavoritePlace = async (pos, marker, favoriteMarkerImage) => {
     if (!authStore.isLogin){
       alert("로그인 후 사용해주세요");
       router.push("/pages/landing-pages/signin");
@@ -177,6 +183,9 @@
 
         // visitedPositions에 visitedPlaceInfo를 추가
         props.favoritePositions.push(favoritePlaceInfo);
+        infowindow.close();
+
+        marker.setImage(favoriteMarkerImage);
 
         alert('즐겨찾기에 등록되었습니다.');
 
@@ -219,7 +228,7 @@
     }
   }
 
-  const addVisitedPlace = async (pos) => {
+  const addVisitedPlace = async (pos, marker, visitedMarkerImage) => {
     if (!authStore.isLogin){
       alert("로그인 후 사용해주세요");
       router.push("/pages/landing-pages/signin");
@@ -246,9 +255,12 @@
 
         // visitedPositions에 visitedPlaceInfo를 추가
         props.visitedPositions.push(visitedPlaceInfo);
+        infowindow.close();
+
+        marker.setImage(visitedMarkerImage);
 
 
-        alert('즐겨찾기에 등록되었습니다.');
+        alert('가본 곳에 등록되었습니다.');
         // router.push("/pages/landing-pages/signin");
 
       } catch (error) {

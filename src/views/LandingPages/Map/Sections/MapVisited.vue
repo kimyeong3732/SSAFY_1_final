@@ -1,11 +1,11 @@
 <template>
-  <section class="pb-5 position-relative bg-gradient-dark " >
+  <section class="pb-5 position-relative" style="background-color: lightslategray" >
     <div class="container">
       <br>
       <h3 class="text-white">Visited Result</h3>
       <div class="row">
         <div class="col">
-          <table class="table table-striped text-white">
+          <table class="table text-white">
             <thead>
               <tr>
                 <th>대표이미지</th>
@@ -116,9 +116,4 @@ function moveCenter(latitude, longitude) {
 // 페이지네이션을 렌더링해야 하는지 여부 계산
 const shouldRenderPagination = computed(() => props.visitedPositions.length > itemsPerPage);
 
-// visitedPositions 변경 감시
-watch(() => props.visitedPositions, () => {
-  // visitedPositions 값이 변경될 때마다 currentPage를 1로 설정하여 첫 페이지로 이동
-  currentPage.value = 1;
-});
 </script>

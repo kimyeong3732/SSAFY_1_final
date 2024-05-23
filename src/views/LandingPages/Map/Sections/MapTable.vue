@@ -1,11 +1,11 @@
 <template>
-  <section class="pb-5 position-relative bg-gradient-dark " >
+  <section class="pb-5 position-relative bg-gradient-white " >
     <div class="container">
       <br>
-      <h3 class="text-white">Search Result</h3>
+      <h3 class="text-black">Search Result</h3>
       <div class="row">
         <div class="col">
-          <table class="table table-striped text-white">
+          <table class="table table-striped text-black">
             <thead>
               <tr>
                 <th>대표이미지</th>
