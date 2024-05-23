@@ -111,8 +111,10 @@ async function getList() {
     trips.value = data;
 
     positions.value = data.map(item => ({
-      lat: item.latitude,
-      lng: item.longitude,
+      firstimage: item.firstimage,
+      addr1: item.addr1,
+      latitude: item.latitude,
+      longitude: item.longitude,
       title: item.title,
       attractionId: item.attractionId
     }));
@@ -122,7 +124,7 @@ async function getList() {
     if (positions.value.length > 0) {
       setMarkers(positions, '../../src/assets/img/search.png');
       // positions 배열이 비어있지 않다면, 첫 번째 위치로 중심 이동
-      mapComponent.value.moveCenter(positions.value[0].lat, positions.value[0].lng); // moveCenter 함수 호출
+      mapComponent.value.moveCenter(positions.value[0].latitude, positions.value[0].longitude); // moveCenter 함수 호출
       // console.log(positions.value[0].title);
     }
     if (favoritePositions.value.length > 0) {
@@ -146,8 +148,10 @@ async function getFavoriteList() {
     favoriteList.value = data;
 
     favoritePositions.value = data.map(item => ({
-      lat: item.latitude,
-      lng: item.longitude,
+      firstimage: item.firstimage,
+      addr1: item.addr1,
+      latitude: item.latitude,
+      longitude: item.longitude,
       title: item.title,
       attractionId: item.attractionId
     }));
@@ -169,8 +173,10 @@ async function getVisitedList() {
     visitedList.value = data;
 
     visitedPositions.value = data.map(item => ({
-      lat: item.latitude,
-      lng: item.longitude,
+      firstimage: item.firstimage,
+      addr1: item.addr1,
+      latitude: item.latitude,
+      longitude: item.longitude,
       title: item.title,
       attractionId: item.attractionId
     }));
@@ -288,8 +294,8 @@ async function getVisitedList() {
     <MapMap ref="mapComponent" :positions="positions" :visitedPositions="visitedPositions" :favoritePositions="favoritePositions"/><br>
     <MapTable ref="mapTableRef" :search-results="trips" @update-positions="updatePositions" @move-center="moveCenter" />
     <template v-if="authStore.isLogin">
-      <MapFavorite :favorite-list="favoriteList" />
-      <MapVisited :visited-list="visitedList" />
+      <MapFavorite :favoritePositions="favoritePositions" />
+      <MapVisited :visitedPositions="visitedPositions" />
     </template>
   </div>
   <DefaultFooter />

@@ -70,7 +70,7 @@
     positions.value.forEach(pos => {
       const marker = new kakao.maps.Marker({
         map: map.value, // Vue 컴포넌트 내에서 this.map을 사용하여 map에 접근
-        position: new kakao.maps.LatLng(pos.lat, pos.lng),
+        position: new kakao.maps.LatLng(pos.latitude, pos.longitude),
         image : markerImage, // 마커의 이미지
         clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생도록 설정합니다
       });
@@ -109,7 +109,7 @@
 
         if (!isFavorite) {
           document.getElementById('addFavorite').addEventListener('click', function() {
-            addFavoritePlace(pos.attractionId);
+            addFavoritePlace(pos);
           });
         }
 
@@ -121,7 +121,7 @@
 
         if (!isVisited) {
           document.getElementById('addVisited').addEventListener('click', function() {
-            addVisitedPlace(pos.attractionId);
+            addVisitedPlace(pos);
           });
         }
 
@@ -150,7 +150,7 @@
     }
   }
 
-  const addFavoritePlace = async (attractionId) => {
+  const addFavoritePlace = async (pos) => {
     if (!authStore.isLogin){
       alert("로그인 후 사용해주세요");
       router.push("/pages/landing-pages/signin");
@@ -158,12 +158,25 @@
     else{
       let info = {
         userSeq: authStore.userSeq,
-        attractionId: attractionId
+        attractionId: pos.attractionId
       };
 
       try {
         let { data } = await http.post("/favorite", info); // JSON Request, { params : registerObj } X params 를 쓰면 get => query string
         console.log(data.result);
+
+        // 즐겨찾기에 등록된 관광지 정보를 받아온다고 가정하고 해당 정보를 visitedPositions에 추가
+        let favoritePlaceInfo = {
+          firstimage: pos.firstimage,
+          addr1: pos.addr1,
+          latitude: pos.latitude,
+          longitude: pos.longitude,
+          title: pos.title,
+          attractionId: pos.attractionId
+        };
+
+        // visitedPositions에 visitedPlaceInfo를 추가
+        props.favoritePositions.push(favoritePlaceInfo);
 
         alert('즐겨찾기에 등록되었습니다.');
 
@@ -206,7 +219,7 @@
     }
   }
 
-  const addVisitedPlace = async (attractionId) => {
+  const addVisitedPlace = async (pos) => {
     if (!authStore.isLogin){
       alert("로그인 후 사용해주세요");
       router.push("/pages/landing-pages/signin");
@@ -214,14 +227,26 @@
 
       let info = {
         userSeq: authStore.userSeq,
-        attractionId: attractionId
+        attractionId: pos.attractionId
       };
 
       try {
         let { data } = await http.post("/visited", info); // JSON Request, { params : registerObj } X params 를 쓰면 get => query string
-        console.log("UserSeq: data : ");
-        console.log("attractionId: data : ");
-        console.log(data.result);
+        console.log(data);
+
+        // 즐겨찾기에 등록된 관광지 정보를 받아온다고 가정하고 해당 정보를 visitedPositions에 추가
+        let visitedPlaceInfo = {
+          firstimage: pos.firstimage,
+          addr1: pos.addr1,
+          latitude: pos.latitude,
+          longitude: pos.longitude,
+          title: pos.title,
+          attractionId: pos.attractionId
+        };
+
+        // visitedPositions에 visitedPlaceInfo를 추가
+        props.visitedPositions.push(visitedPlaceInfo);
+
 
         alert('즐겨찾기에 등록되었습니다.');
         // router.push("/pages/landing-pages/signin");

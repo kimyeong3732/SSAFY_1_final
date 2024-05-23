@@ -11,8 +11,6 @@
                 <th>대표이미지</th>
                 <th>관광지명</th>
                 <th>주소</th>
-                <th>위도</th>
-                <th>경도</th>
               </tr>
             </thead>
             <tbody>
@@ -22,8 +20,6 @@
                 </td>
                 <td>{{ area.title }}</td>
                 <td>{{ area.addr1 }}</td>
-                <td>{{ area.latitude }}</td>
-                <td>{{ area.longitude }}</td>
               </tr>
             </tbody>
           </table>
@@ -55,10 +51,7 @@
 import { defineEmits, defineProps, ref, computed } from 'vue';
 
 const props = defineProps({
-  favoriteList: {
-    type: Array,
-    required: true
-  }
+  favoritePositions: Array,  // 즐겨찾기 목록
 });
 
 const emit = defineEmits(['move-center']);
@@ -71,11 +64,11 @@ const currentPage = ref(1); // 현재 페이지
 const paginatedResults = computed(() => {
   const startIndex = (currentPage.value - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  return props.favoriteList.slice(startIndex, endIndex);
+  return props.favoritePositions.slice(startIndex, endIndex);
 });
 
 // 전체 페이지 수 계산
-const totalPages = computed(() => Math.ceil(props.favoriteList.length / itemsPerPage));
+const totalPages = computed(() => Math.ceil(props.favoritePositions.length / itemsPerPage));
 
 // 표시되는 페이지 수 (최대 10개씩)
 const displayedPages = computed(() => {
@@ -112,7 +105,7 @@ function nextPage() {
 
 // 이미지 에러 처리
 function handleImageError(area) {
-  area.firstimage = "../../src/assets/img/no_image.png";
+  area.firstImage = "../../src/assets/img/no_image.png";
 }
 
 // 관광지를 이동하는 함수
@@ -121,5 +114,5 @@ function moveCenter(latitude, longitude) {
 }
 
 // 페이지네이션을 렌더링해야 하는지 여부 계산
-const shouldRenderPagination = computed(() => props.favoriteList.length > itemsPerPage);
+const shouldRenderPagination = computed(() => props.favoritePositions.length > itemsPerPage);
 </script>
