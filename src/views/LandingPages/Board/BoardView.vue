@@ -9,7 +9,7 @@ import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
 import http from "@/common/axios.js";
 
 //image
-import bg0 from "@/assets/img/bg9.jpg";
+import bg0 from "@/assets/img/snow.jpg";
 
 //dep
 import Typed from "typed.js";

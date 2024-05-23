@@ -105,7 +105,7 @@ function nextPage() {
 
 // 이미지 에러 처리
 function handleImageError(area) {
-  area.firstImage = "../../src/assets/img/no_image.png";
+  area.firstimage = "../../src/assets/img/no_image.png";
 }
 
 // 관광지를 이동하는 함수
@@ -115,4 +115,5 @@ function moveCenter(latitude, longitude) {
 
 // 페이지네이션을 렌더링해야 하는지 여부 계산
 const shouldRenderPagination = computed(() => props.favoritePositions.length > itemsPerPage);
+
 </script>

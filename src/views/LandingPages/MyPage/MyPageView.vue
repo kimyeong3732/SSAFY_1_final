@@ -10,7 +10,7 @@ import Posts from "./Sections/MyPageFriendship.vue";
 import Contact from "./Sections/EditProfile.vue";
 
 // image
-import image from "@/assets/img/city-profile.jpg";
+import image from "@/assets/img/berlin.jpg";
 
 import AddFriendModal from "./Modals/AddFriendModal.vue";
 import FriendRequestModal from "./Modals/FriendRequestModal.vue";

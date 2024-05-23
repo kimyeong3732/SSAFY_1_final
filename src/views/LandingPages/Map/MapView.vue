@@ -3,7 +3,7 @@ import { onMounted, onUnmounted, ref } from "vue";
 import http from "@/common/axios.js";
 import DefaultNavbar from "../../../examples/navbars/NavbarDefault.vue";
 import DefaultFooter from "../../../examples/footers/FooterDefault.vue";
-import bg0 from "@/assets/img/bg9.jpg";
+import bg0 from "@/assets/img/trip.jpg";
 import Typed from "typed.js";
 import MapMap from "./Sections/MapMap.vue";
 import MapTable from "./Sections/MapTable.vue";
@@ -234,37 +234,37 @@ async function getVisitedList() {
             <div class="row">
               <div class="col-3">
                 <select id="sidoList" class="form-select text-white">
-                  <option class="text-dark" value=''>시도</option>
-                  <option class="text-dark" value='1'>서울</option>
-                  <option class="text-dark" value='2'>인천</option>
-                  <option class="text-dark" value='3'>대전</option>
-                  <option class="text-dark" value='4'>대구</option>
-                  <option class="text-dark" value='5'>광주</option>
-                  <option class="text-dark" value='6'>부산</option>
-                  <option class="text-dark" value='7'>울산</option>
-                  <option class="text-dark" value='8'>세종</option>
-                  <option class="text-dark" value='31'>경기</option>
-                  <option class="text-dark" value='32'>강원</option>
-                  <option class="text-dark" value='33'>충북</option>
-                  <option class="text-dark" value='34'>충남</option>
-                  <option class="text-dark" value='35'>경북</option>
-                  <option class="text-dark" value='36'>경남</option>
-                  <option class="text-dark" value='37'>전북</option>
-                  <option class="text-dark" value='38'>전남</option>
-                  <option class="text-dark" value='39'>제주</option>
+                  <option class="text-dark" value=''>&nbsp;시도</option>
+                  <option class="text-dark" value='1'>&nbsp;서울</option>
+                  <option class="text-dark" value='2'>&nbsp;인천</option>
+                  <option class="text-dark" value='3'>&nbsp;대전</option>
+                  <option class="text-dark" value='4'>&nbsp;대구</option>
+                  <option class="text-dark" value='5'>&nbsp;광주</option>
+                  <option class="text-dark" value='6'>&nbsp;부산</option>
+                  <option class="text-dark" value='7'>&nbsp;울산</option>
+                  <option class="text-dark" value='8'>&nbsp;세종</option>
+                  <option class="text-dark" value='31'>&nbsp;경기</option>
+                  <option class="text-dark" value='32'>&nbsp;강원</option>
+                  <option class="text-dark" value='33'>&nbsp;충북</option>
+                  <option class="text-dark" value='34'>&nbsp;충남</option>
+                  <option class="text-dark" value='35'>&nbsp;경북</option>
+                  <option class="text-dark" value='36'>&nbsp;경남</option>
+                  <option class="text-dark" value='37'>&nbsp;전북</option>
+                  <option class="text-dark" value='38'>&nbsp;전남</option>
+                  <option class="text-dark" value='39'>&nbsp;제주</option>
                 </select>
               </div>
               <div class="col-3">
                 <select id="search-content-id" class="form-select me-2 text-white">
-                  <option class="text-dark" value="0" selected>관광지 유형</option>
-                  <option class="text-dark" value="12">관광지</option>
-                  <option class="text-dark" value="14">문화시설</option>
-                  <option class="text-dark" value="15">축제공연행사</option>
-                  <option class="text-dark" value="25">여행코스</option>
-                  <option class="text-dark" value="28">레포츠</option>
-                  <option class="text-dark" value="32">숙박</option>
-                  <option class="text-dark" value="38">쇼핑</option>
-                  <option class="text-dark" value="39">음식점</option>
+                  <option class="text-dark" value="0" selected>&nbsp;관광지 유형</option>
+                  <option class="text-dark" value="12">&nbsp;관광지</option>
+                  <option class="text-dark" value="14">&nbsp;문화시설</option>
+                  <option class="text-dark" value="15">&nbsp;축제공연행사</option>
+                  <option class="text-dark" value="25">&nbsp;여행코스</option>
+                  <option class="text-dark" value="28">&nbsp;레포츠</option>
+                  <option class="text-dark" value="32">&nbsp;숙박</option>
+                  <option class="text-dark" value="38">&nbsp;쇼핑</option>
+                  <option class="text-dark" value="39">&nbsp;음식점</option>
                 </select>
               </div>
               <div class="col-3">
@@ -291,11 +291,11 @@ async function getVisitedList() {
     </div>
   </header>
   <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
-    <MapMap ref="mapComponent" :positions="positions" :visitedPositions="visitedPositions" :favoritePositions="favoritePositions"/><br>
-    <MapTable ref="mapTableRef" :search-results="trips" @update-positions="updatePositions" @move-center="moveCenter" />
+    <MapMap ref="mapComponent" :positions="positions" :visitedPositions="visitedPositions" :favoritePositions="favoritePositions" style="border-radius: 10px; box-shadow: 2px 3px 10px 0px;"/><br>
+    <MapTable ref="mapTableRef" :search-results="trips" @update-positions="updatePositions" @move-center="moveCenter" style="border-radius: 10px; box-shadow: 2px 3px 10px 0px;"/><br>
     <template v-if="authStore.isLogin">
-      <MapFavorite :favoritePositions="favoritePositions" />
-      <MapVisited :visitedPositions="visitedPositions" />
+      <MapVisited :visitedPositions="visitedPositions" style="border-radius: 10px; outline: 10px; box-shadow: 2px 3px 10px 0px;"/><br>
+      <MapFavorite :favoritePositions="favoritePositions" style="border-radius: 10px; box-shadow: 2px 3px 10px 0px;"/>
     </template>
   </div>
   <DefaultFooter />
@@ -310,4 +310,5 @@ async function getVisitedList() {
   opacity: 1;
   background-image: linear-gradient(195deg, #fff 0%, #fff 100%);
 }
+
 </style>
