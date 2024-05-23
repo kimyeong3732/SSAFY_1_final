@@ -11,8 +11,6 @@
                 <th>대표이미지</th>
                 <th>관광지명</th>
                 <th>주소</th>
-                <th>위도</th>
-                <th>경도</th>
               </tr>
             </thead>
             <tbody>
@@ -22,8 +20,6 @@
                 </td>
                 <td>{{ area.title }}</td>
                 <td>{{ area.addr1 }}</td>
-                <td>{{ area.latitude }}</td>
-                <td>{{ area.longitude }}</td>
               </tr>
             </tbody>
           </table>
