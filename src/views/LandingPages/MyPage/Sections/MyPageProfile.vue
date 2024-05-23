@@ -3,21 +3,13 @@ import { ref, onMounted } from "vue";
 import http from "@/common/axios.js";
 
 //Vue Material Kit 2 components
-import MaterialAvatar from "@/components/MaterialAvatar.vue";
-import MaterialButton from "@/components/MaterialButton.vue";
 
 // image
-import profilePic from "@/assets/img/bruce-mars.jpg";
-import notLoginUserProfileImage from '@/assets/img/noProfileImage.jpg';
 
 import { useAuthStore } from "../../../../stores/authStore";
 
 // material-input
 import setMaterialInput from "@/assets/js/material-input";
-
-import { useRouter } from 'vue-router'
-import {storeToRefs} from 'pinia'
-const router = useRouter()
 
 const { authStore, setProfileImage } = useAuthStore();
 
@@ -90,12 +82,6 @@ const changeImg = async(fileEvent) => {
                 >
               </label>
               <input @change="changeImg" type="file" id="file-input" style="display: none;">
-              <!-- <MaterialAvatar
-                size="xxl"
-                class="shadow-xl position-relative z-index-2"
-                :image="authStore.userProfileImage"
-                alt="Avatar"
-              /> -->
             </div>
           </div>
           <div class="row py-7">
@@ -107,13 +93,6 @@ const changeImg = async(fileEvent) => {
               >
                 <h2 class="mb-0">{{ authStore.userName }}</h2>
                 <div class="d-block">
-                  <!-- <MaterialButton
-                    class="text-nowrap mb-0"
-                    variant="outline"
-                    color="success"
-                    size="sm"
-                    >Follow</MaterialButton
-                  > -->
                 </div>
               </div>
               <div class="row mb-4">
@@ -121,14 +100,6 @@ const changeImg = async(fileEvent) => {
                   <!-- <span class="h4 me-1">회원 등급 </span> -->
                   <span class="h5">{{ authStore.userRole=='020' ? '관리자' : '' }}</span>
                 </div>
-                <!-- <div class="col-auto">
-                  <span class="h6 me-1">3.5k</span>
-                  <span>Followers</span>
-                </div>
-                <div class="col-auto">
-                  <span class="h6 me-1">260</span>
-                  <span>Following</span>
-                </div> -->
               </div>
               <p class="text-lg mb-0">
                 {{ authStore.userMessage }}
