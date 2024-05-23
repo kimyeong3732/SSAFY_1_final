@@ -19,6 +19,7 @@ const body = document.getElementsByTagName("body")[0];
 const positions = ref([]);
 const favoritePositions = ref([]);
 const visitedPositions = ref([]);
+
 const mapTableRef = ref(null);
 const mapComponent = ref(null);
 const current = {};
@@ -112,7 +113,8 @@ async function getList() {
     positions.value = data.map(item => ({
       lat: item.latitude,
       lng: item.longitude,
-      title : item.title
+      title: item.title,
+      attractionId: item.attractionId
     }));
 
     clearMarkers();
@@ -146,7 +148,8 @@ async function getFavoriteList() {
     favoritePositions.value = data.map(item => ({
       lat: item.latitude,
       lng: item.longitude,
-      title : item.title
+      title: item.title,
+      attractionId: item.attractionId
     }));
 
     if (favoritePositions.value.length > 0) {
@@ -168,7 +171,8 @@ async function getVisitedList() {
     visitedPositions.value = data.map(item => ({
       lat: item.latitude,
       lng: item.longitude,
-      title : item.title
+      title: item.title,
+      attractionId: item.attractionId
     }));
 
     if (visitedPositions.value.length > 0) {
@@ -281,7 +285,7 @@ async function getVisitedList() {
     </div>
   </header>
   <div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
-    <MapMap ref="mapComponent" :positions="positions"/><br>
+    <MapMap ref="mapComponent" :positions="positions" :visitedPositions="visitedPositions" :favoritePositions="favoritePositions"/><br>
     <MapTable ref="mapTableRef" :search-results="trips" @update-positions="updatePositions" @move-center="moveCenter" />
     <template v-if="authStore.isLogin">
       <MapFavorite :favorite-list="favoriteList" />
