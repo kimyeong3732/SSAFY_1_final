@@ -57,7 +57,6 @@ const editorConfig = {}
 const title = ref('')
 const attachFile = ref(false)
 const fileList = ref([]);
-const inputFile = ref('')
 
 onMounted(() => {
     // console.log( document.querySelector("#inputFileUploadInsert") )

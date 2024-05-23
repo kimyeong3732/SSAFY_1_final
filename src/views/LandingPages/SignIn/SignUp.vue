@@ -7,9 +7,6 @@ import DefaultNavbar from "@/examples/navbars/NavbarDefault.vue";
 import Header from "@/examples/Header.vue";
 
 //Vue Material Kit 2 components
-import MaterialInput from "@/components/MaterialInput.vue";
-import MaterialSwitch from "@/components/MaterialSwitch.vue";
-import MaterialButton from "@/components/MaterialButton.vue";
 
 import http from "@/common/axios.js";
 
@@ -236,31 +233,6 @@ getCodeList();
                   <div class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
                 </div>
 
-                <!-- <MaterialInput
-                  id="name"
-                  class="input-group-outline my-3"
-                  :label="{ text: 'Name', class: 'form-label' }"
-                  type="text"
-                />
-                <MaterialInput
-                  id="email"
-                  class="input-group-outline my-3"
-                  :label="{ text: 'Email', class: 'form-label' }"
-                  type="email"
-                />
-                <MaterialInput
-                  id="password"
-                  class="input-group-outline mb-3"
-                  :label="{ text: 'Password', class: 'form-label' }"
-                  type="password"
-                />
-                <MaterialInput
-                  id="password2"
-                  class="input-group-outline mb-3"
-                  :label="{ text: 'Confirm Password', class: 'form-label' }"
-                  type="password"
-                /> -->
-
                 <div class="mb-3">
                     <div class="form-check form-check-inline" v-for="(code, index) in codeList" :key="index">
                         <input class="form-check-input" name="userClsf" :value="code.code" type="radio" v-model="userClsf" />
@@ -274,14 +246,6 @@ getCodeList();
                     @click="register"
                     >Sign up</button
                   >
-
-                  <!-- <MaterialButton
-                    class="my-4 mb-2"
-                    variant="gradient"
-                    color="success"
-                    fullWidth
-                    >Sign up</MaterialButton
-                  > -->
                 </div>
               </div>
             </div>

@@ -9,9 +9,6 @@ import DefaultNavbar from "@/examples/navbars/NavbarDefault.vue";
 import Header from "@/examples/Header.vue";
 
 //Vue Material Kit 2 components
-import MaterialInput from "@/components/MaterialInput.vue";
-import MaterialSwitch from "@/components/MaterialSwitch.vue";
-import MaterialButton from "@/components/MaterialButton.vue";
 
 // material-input
 import setMaterialInput from "@/assets/js/material-input";
@@ -26,29 +23,12 @@ const router = useRouter()
 
 console.log(authStore);
 const login = async () => {
-  // #1 Not JSON Way : application/x-www-form-urlencoded;charset=UTF-8
-
-  // backend 는 @RequestBody X
-  // let options = {
-  //   headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' }
-  // }
-
-  // application/x-www-form-urlencoded 일 때 param 은 URLSearchParams() 를 이용
-  // const params = new URLSearchParams();
-  // params.append('userEmail', authStore.userEmail);
-  // params.append('userPassword', authStore.userPassword);
-
-  // #2 JSON Way : application/json
   let loginObj = {
     userEmail: authStore.userEmail,
     userPassword: authStore.userPassword,
   };
 
   try {
-    // #1
-    // let {data} = await  http.post('/login', params, options );
-
-    // #2
     let { data } = await http.post("/login", loginObj);
 
     console.log("LoginVue: data : ");
@@ -139,25 +119,6 @@ const login = async () => {
                     @keydown.enter="login"
                   />
                 </div>
-                  <!-- <MaterialInput
-                    id="email"
-                    class="input-group-outline my-3"
-                    :label="{ text: 'Email', class: 'form-label' }"
-                    type="email"
-                  />
-                  <MaterialInput
-                    id="password"
-                    class="input-group-outline mb-3"
-                    :label="{ text: 'Password', class: 'form-label' }"
-                    type="password"
-                  /> -->
-                  <!-- <MaterialSwitch
-                    class="d-flex align-items-center mb-3"
-                    id="rememberMe"
-                    labelClass="mb-0 ms-3"
-                    checked
-                    >Remember me</MaterialSwitch
-                  > -->
 
                   <div class="text-center">
                     <button
@@ -165,13 +126,6 @@ const login = async () => {
                       @click="login"
                       >Sign in</button
                     >
-                    <!-- <MaterialButton
-                      class="my-4 mb-2"
-                      variant="gradient"
-                      color="success"
-                      fullWidth
-                      >Sign in</MaterialButton
-                    > -->
                   </div>
                   <p class="mt-4 text-sm text-center">
                     Don't have an account?
